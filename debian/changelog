@@ -1,0 +1,13 @@
+capi-system-device (0.1.0-5) unstable; urgency=low
+
+  * update versioning 
+  * Git: api/device
+  * Tag: capi-system-device_0.1.0-5
+
+ -- Pius Lee <pius.lee@samsung.com>  Thu, 15 Dec 2011 13:46:58 +0900
+
+capi-system-device (0.0.1-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Pius Lee <pius.lee@samsung.com>  Wed, 07 Dec 2011 12:39:36 +0900
