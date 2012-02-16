@@ -1,3 +1,11 @@
+capi-system-device (0.1.0-6) unstable; urgency=low
+
+  * now, version will be attached to shared object extension.
+  * Git: api/device
+  * Tag: capi-system-device_0.1.0-6
+
+ -- Pius Lee <pius.lee@samsung.com>  Thu, 16 Feb 2012 17:13:39 +0900
+
 capi-system-device (0.1.0-5) unstable; urgency=low
 
   * update versioning 
