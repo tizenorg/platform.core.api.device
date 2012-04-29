@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 5), dlog-dev, libdevman-dev, libglib2.0-dev, capi-b
 
 Package: capi-system-device
 Architecture: any
-Depends: ${shilbs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: A Device library in Tizen Native API
 
 Package: capi-system-device-dev

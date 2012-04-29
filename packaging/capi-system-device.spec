@@ -1,16 +1,17 @@
 Name:       capi-system-device
 Summary:    A Device library in TIZEN C API
 Version:    0.1.0
-Release:    1
+Release:    6
 Group:      TO_BE/FILLED_IN
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(devman)
+BuildRequires:  pkgconfig(capi-base-common)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(vconf)
-BuildRequires:  pkgconfig(capi-base-common)
+
 Requires(post): /sbin/ldconfig  
 Requires(postun): /sbin/ldconfig
 
@@ -31,8 +32,8 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
-cmake . -DCMAKE_INSTALL_PREFIX=/usr
-
+MAJORVER=`echo %{version} | awk 'BEGIN {FS="."}{print $1}'`
+cmake . -DCMAKE_INSTALL_PREFIX=/usr -DFULLVER=%{version} -DMAJORVER=${MAJORVER}
 
 make %{?jobs:-j%jobs}
 
@@ -46,10 +47,11 @@ rm -rf %{buildroot}
 
 
 %files
-%{_libdir}/libcapi-system-device.so
+%{_libdir}/libcapi-system-device.so.*
 
 %files devel
 %{_includedir}/system/device.h
 %{_libdir}/pkgconfig/*.pc
+%{_libdir}/libcapi-system-device.so
 
 
