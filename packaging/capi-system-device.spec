@@ -5,6 +5,7 @@ Release:    6
 Group:      TO_BE/FILLED_IN
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
+Source1001: packaging/capi-system-device.manifest 
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(devman)
@@ -32,6 +33,7 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
+cp %{SOURCE1001} .
 MAJORVER=`echo %{version} | awk 'BEGIN {FS="."}{print $1}'`
 cmake . -DCMAKE_INSTALL_PREFIX=/usr -DFULLVER=%{version} -DMAJORVER=${MAJORVER}
 
@@ -47,9 +49,11 @@ rm -rf %{buildroot}
 
 
 %files
+%manifest capi-system-device.manifest
 %{_libdir}/libcapi-system-device.so.*
 
 %files devel
+%manifest capi-system-device.manifest
 %{_includedir}/system/device.h
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/libcapi-system-device.so
