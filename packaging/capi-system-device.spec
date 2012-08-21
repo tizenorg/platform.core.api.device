@@ -1,9 +1,9 @@
 Name:       capi-system-device
 Summary:    A Device library in TIZEN C API
-Version:    0.1.0
-Release:    6
+Version: 0.1.0
+Release:    8
 Group:      TO_BE/FILLED_IN
-License:    Apache-2.0
+License:    TO BE FILLED IN
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(glib-2.0)

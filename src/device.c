@@ -28,6 +28,7 @@
 
 #define _MSG_DEVICE_ERROR_INVALID_PARAMETER "Invalid parameter"
 #define _MSG_DEVICE_ERROR_OPERATION_FAILED "Operation failed"
+#define _MSG_DEVICE_ERROR_NOT_SUPPORTED "Not supported in this device"
 
 #define RETURN_ERR_MSG(err_code, msg) \
     do { \
@@ -58,30 +59,47 @@ int device_get_display_numbers(int* device_number)
     return DEVICE_ERROR_NONE;
 }
 
-int device_battery_get_percent( int* percent )
+int device_battery_get_percent(int* percent)
 {
-    if (percent == NULL) RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+	if (percent == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
 
 	int pct = device_get_battery_pct();
-	if(pct < 0) {
-        RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
-    }else{
+	if (pct < 0) {
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	} else {
 		*percent = pct;
-    }
+	}
 	return DEVICE_ERROR_NONE;
 }
 
-int device_battery_is_full( bool* full )
+int device_battery_get_detail(int* percent)
 {
-    if (full == NULL) RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+	if (percent == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
 
-    int f = device_get_battery_pct();
-	if(f < 0) {
-        RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
-    }
-	else
-		*full = f == 100 ? true : false;
+	int pct = device_get_battery_pct_raw();
+	if (pct == -ENODEV)
+		RETURN_ERR(DEVICE_ERROR_NOT_SUPPORTED);
 
+	if (pct < 0)
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+
+	*percent = pct;
+	return DEVICE_ERROR_NONE;
+}
+
+int device_battery_is_full(bool* full)
+{
+	if (full == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	int f = device_is_battery_full();
+	if (f < 0) {
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	} else {
+		*full = (f == 1) ? true : false;
+	}
 	return DEVICE_ERROR_NONE;
 }
 
@@ -167,6 +185,26 @@ int device_get_max_brightness(int disp_idx, int* max_value)
 	return DEVICE_ERROR_NONE;
 }
 
+int device_set_brightness_from_settings(int disp_idx)
+{
+	int max_id, disp, val;
+
+	if(device_get_display_numbers(&max_id) < 0)
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+
+	if(disp_idx < 0 || disp_idx >= max_id)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	disp = _display[disp_idx];
+
+	val = device_release_brt_ctrl(disp);
+	if(val < 0) {
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	}
+
+	return DEVICE_ERROR_NONE;
+}
+
 int device_battery_is_charging(bool *charging)
 {
     // VCONFKEY_SYSMAN_BATTERY_CHARGE_NOW
@@ -233,4 +271,127 @@ int device_battery_unset_cb(void)
     changed_callback_user_data = NULL;
 
     return DEVICE_ERROR_NONE;
+}
+
+int device_battery_get_warning_status(device_battery_warn_e *status)
+{
+	if (status == NULL) RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	int value, err;
+
+	err = vconf_get_int(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, &value);
+
+	if(err < 0){
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	}
+	if(value == VCONFKEY_SYSMAN_BAT_POWER_OFF){
+		*status = DEVICE_BATTERY_WARN_EMPTY;
+	}else if(value == VCONFKEY_SYSMAN_BAT_CRITICAL_LOW){
+		*status = DEVICE_BATTERY_WARN_CRITICAL;
+	}else if(value == VCONFKEY_SYSMAN_BAT_WARNING_LOW){
+		*status = DEVICE_BATTERY_WARN_LOW;
+	}else if(value == VCONFKEY_SYSMAN_BAT_NORMAL){
+		*status = DEVICE_BATTERY_WARN_NORMAL;
+	}else if(value == VCONFKEY_SYSMAN_BAT_FULL){
+		*status = DEVICE_BATTERY_WARN_FULL;
+	}else{
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	}
+	return DEVICE_ERROR_NONE;
+}
+
+static device_battery_warn_cb warn_changed_callback = NULL;
+static void* warn_changed_callback_user_data = NULL;
+
+static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
+{
+	char* keyname = vconf_keynode_get_name(key);
+
+	if(keyname != NULL && warn_changed_callback != NULL && strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_STATUS_LOW) == 0){
+		int bat_state = 0;
+		if(vconf_get_int(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, &bat_state) == 0){
+			warn_changed_callback(bat_state-1, warn_changed_callback_user_data);
+		}
+	}
+}
+
+int device_battery_warning_set_cb(device_battery_warn_cb callback, void* user_data)
+{
+	// VCONFKEY_SYSMAN_BATTERY_STATUS_LOW
+	int err;
+	if(callback == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	warn_changed_callback = callback;
+	warn_changed_callback_user_data = user_data;
+
+	err = vconf_notify_key_changed(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, battery_warn_changed_inside_cb, NULL);
+	if(err < 0){
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+	}
+
+	return DEVICE_ERROR_NONE;
+}
+
+int device_battery_warning_unset_cb(void)
+{
+	int err = vconf_ignore_key_changed(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, battery_warn_changed_inside_cb);
+	if(err < 0){
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+	}
+	warn_changed_callback = NULL;
+	warn_changed_callback_user_data = NULL;
+
+	return DEVICE_ERROR_NONE;
+}
+
+int device_flash_get_brightness(int *brightness)
+{
+	int value;
+
+	if (brightness == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	value = device_get_led_brt();
+
+	if (value < 0)
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+
+	*brightness = value;
+
+	return DEVICE_ERROR_NONE;
+}
+
+int device_flash_set_brightness(int brightness)
+{
+	int max_value, value;
+
+	device_flash_get_max_brightness(&max_value);
+
+	if (brightness < 0 || brightness > max_value)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	value = device_set_led_brt(brightness);
+
+	if (value < 0)
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+
+	return DEVICE_ERROR_NONE;
+}
+
+int device_flash_get_max_brightness(int *max_brightness)
+{
+	int value;
+
+	if (max_brightness == NULL)
+		RETURN_ERR(DEVICE_ERROR_INVALID_PARAMETER);
+
+	value = device_get_max_led();
+
+	if (value < 0)
+		RETURN_ERR(DEVICE_ERROR_OPERATION_FAILED);
+
+	*max_brightness = value;
+
+	return DEVICE_ERROR_NONE;
 }
