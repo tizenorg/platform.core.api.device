@@ -164,6 +164,8 @@ int device_battery_get_warning_status(device_battery_warn_e *status)
 
 static device_battery_warn_cb warn_changed_callback = NULL;
 static void* warn_changed_callback_user_data = NULL;
+static device_battery_level_cb level_changed_callback = NULL;
+static void* level_changed_callback_user_data = NULL;
 
 static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
 {
@@ -173,6 +175,20 @@ static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
 		int bat_state = 0;
 		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, &bat_state) == 0) {
 			warn_changed_callback(bat_state-1, warn_changed_callback_user_data);
+		}
+	}
+}
+
+static void battery_level_changed_inside_cb(keynode_t* key, void* user_data)
+{
+	char* keyname;
+	keyname = vconf_keynode_get_name(key);
+
+	if (keyname != NULL && level_changed_callback != NULL &&
+	    strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_LEVEL_STATUS) == 0) {
+		int bat_state = 0;
+		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_LEVEL_STATUS, &bat_state) == 0) {
+			level_changed_callback(bat_state, level_changed_callback_user_data);
 		}
 	}
 }
@@ -339,5 +355,56 @@ int device_battery_unset_remaining_time_changed_cb(device_battery_remaining_time
 		default:
 			return DEVICE_ERROR_INVALID_PARAMETER;
 	}
+	return DEVICE_ERROR_NONE;
+}
+
+int device_battery_get_level_status(device_battery_level_e *status)
+{
+	int value, err;
+
+	if (status == NULL)
+		return DEVICE_ERROR_INVALID_PARAMETER;
+
+
+	err = vconf_get_int(VCONFKEY_SYSMAN_BATTERY_LEVEL_STATUS, &value);
+	if (err < 0)
+		return DEVICE_ERROR_OPERATION_FAILED;
+
+	if (value == VCONFKEY_SYSMAN_BAT_LEVEL_EMPTY) {
+		*status = DEVICE_BATTERY_LEVEL_EMPTY;
+	} else if (value == VCONFKEY_SYSMAN_BAT_LEVEL_CRITICAL) {
+		*status = DEVICE_BATTERY_LEVEL_CRITICAL;
+	} else if (value == VCONFKEY_SYSMAN_BAT_LEVEL_LOW) {
+		*status = DEVICE_BATTERY_LEVEL_LOW;
+	} else if (value == VCONFKEY_SYSMAN_BAT_LEVEL_HIGH) {
+		*status = DEVICE_BATTERY_LEVEL_HIGH;
+	} else if (value == VCONFKEY_SYSMAN_BAT_LEVEL_FULL) {
+		*status = DEVICE_BATTERY_LEVEL_FULL;
+	} else {
+		return DEVICE_ERROR_OPERATION_FAILED;
+	}
+
+	return DEVICE_ERROR_NONE;
+}
+
+int device_battery_level_set_cb(device_battery_level_cb callback, void* user_data)
+{
+	int err;
+
+
+	if (callback == NULL) {
+		err = vconf_ignore_key_changed(VCONFKEY_SYSMAN_BATTERY_LEVEL_STATUS,
+			battery_level_changed_inside_cb);
+	} else {
+
+		err = vconf_notify_key_changed(VCONFKEY_SYSMAN_BATTERY_LEVEL_STATUS,
+			battery_level_changed_inside_cb, NULL);
+	}
+	if (err < 0)
+		return DEVICE_ERROR_OPERATION_FAILED;
+
+	level_changed_callback = callback;
+	level_changed_callback_user_data = user_data;
+
 	return DEVICE_ERROR_NONE;
 }

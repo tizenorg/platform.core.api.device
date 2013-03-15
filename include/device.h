@@ -66,6 +66,19 @@ typedef enum
 } device_battery_remaining_time_type_e;
 
 /**
+ * @brief Enumerations of the battery level status
+ */
+typedef enum
+{
+    DEVICE_BATTERY_LEVEL_EMPTY = 0,      /**< The battery goes empty. Prepare for the safe termination of the application, because the device starts a shutdown process soon after entering this level. */
+    DEVICE_BATTERY_LEVEL_CRITICAL,  /**< The battery charge is at a critical state. You may have to stop using multimedia features, because they are not guaranteed to work correctly at this battery status. */
+    DEVICE_BATTERY_LEVEL_LOW,       /**< The battery has little charge left. */
+    DEVICE_BATTERY_LEVEL_HIGH,    /**< The battery status is not to be careful. */
+    DEVICE_BATTERY_LEVEL_FULL,      /**< The battery status is full. */
+} device_battery_level_e;
+
+
+/**
  * @brief Structure of the time information system spent, measured in units of USER_HZ
  */
 typedef struct {
@@ -114,6 +127,15 @@ typedef void (*device_battery_warn_cb)(device_battery_warn_e status, void *user_
  *
  */
 typedef void (*device_battery_remaining_time_changed_cb)(int time, void* user_data);
+
+/**
+ * @brief Called when an battery level changed
+ *
+ * @param[in] status       The remaining battery level (empty[0~1] critical[2~5] low[6~15] high[16~94] full[95~100])
+ * @param[in] user_data     The user data passed from the callback registration function
+ *
+ */
+typedef void (*device_battery_level_cb)(device_battery_level_e status, void *user_data);
 
 /**
  * @brief Gets the battery warning status.
@@ -291,6 +313,35 @@ int device_battery_set_remaining_time_changed_cb(
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
  */
 int device_battery_unset_remaining_time_changed_cb(device_battery_remaining_time_type_e type);
+
+/**
+ * @brief Gets the battery level status.
+ *
+ * @param[out] status The battery level status.
+ * @return 0 on success, otherwise a negative error value.
+ * @retval #DEVICE_ERROR_NONE				Successful
+ * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
+ * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ *
+ * @see device_battery_level_e
+ * @see device_battery_level_set_cb()
+ */
+int device_battery_get_level_status(device_battery_level_e *status);
+
+/**
+ * @brief Set/Unset callback to be observing battery level.
+ *
+ * @param[in] callback      The callback function to set, if you input NULL, observing is disabled
+ * @param[in] user_data     The user data to be passed to the callback function
+ *
+ * @return 0 on success, otherwise a negative error value.
+ * @retval #DEVICE_ERROR_NONE			Successful
+ * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ *
+ * @see device_battery_level_e
+ * @see device_battery_get_level_status()
+ */
+int device_battery_level_set_cb(device_battery_level_cb callback, void* user_data);
 
 /**
  * @brief Gets the number of display devices.

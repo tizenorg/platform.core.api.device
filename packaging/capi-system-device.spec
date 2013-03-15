@@ -1,7 +1,7 @@
 Name:       capi-system-device
 Summary:    A Device library in TIZEN C API
 Version:    0.1.0
-Release:    18
+Release:    19
 Group:      System/Libraries
 License:    Apache License, Version 2.0
 Source0:    %{name}-%{version}.tar.gz
