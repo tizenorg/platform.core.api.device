@@ -46,11 +46,13 @@ make %{?jobs:-j%jobs}
 
 
 %files
+%manifest %{name}.manifest
 %license LICENSE
 %manifest capi-system-device.manifest
 %{_libdir}/libcapi-system-device.so.*
 
 %files devel
+%manifest %{name}.manifest
 %{_includedir}/system/device.h
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/libcapi-system-device.so
