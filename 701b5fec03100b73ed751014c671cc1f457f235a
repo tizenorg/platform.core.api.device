@@ -1,0 +1,8 @@
+Change-Id: I701b5fec03100b73ed751014c671cc1f457f235a
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 09:38:07 -0700
+Reviewed-on: https://review.tizen.org/gerrit/5124
+Project: platform/core/api/device
+Branch: refs/heads/tizen
