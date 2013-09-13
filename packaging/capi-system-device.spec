@@ -47,7 +47,7 @@ make %{?jobs:-j%jobs}
 
 %files
 %manifest %{name}.manifest
-%license LICENSE
+%license LICENSE.APLv2
 %manifest capi-system-device.manifest
 %{_libdir}/libcapi-system-device.so.*
 
