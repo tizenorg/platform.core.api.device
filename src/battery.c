@@ -95,7 +95,7 @@ static void* changed_callback_user_data = NULL;
 
 static void battery_changed_inside_cb(keynode_t* key, void* user_data)
 {
-	char* keyname = vconf_keynode_get_name(key);
+	const char* keyname = vconf_keynode_get_name(key);
 
 	if (keyname != NULL && changed_callback != NULL && strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_CAPACITY) == 0) {
 		int percent = 0;
@@ -169,7 +169,7 @@ static void* level_changed_callback_user_data = NULL;
 
 static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
 {
-	char* keyname = vconf_keynode_get_name(key);
+	const char* keyname = vconf_keynode_get_name(key);
 
 	if (keyname != NULL && warn_changed_callback != NULL && strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_STATUS_LOW) == 0) {
 		int bat_state = 0;
@@ -181,7 +181,7 @@ static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
 
 static void battery_level_changed_inside_cb(keynode_t* key, void* user_data)
 {
-	char* keyname;
+	const char* keyname;
 	keyname = vconf_keynode_get_name(key);
 
 	if (keyname != NULL && level_changed_callback != NULL &&
@@ -230,7 +230,7 @@ static void* timetoempty_cb_user_data = NULL;
 
 static void device_battery_time_timetofull_inside_cb(keynode_t* key, void* user_data)
 {
-	char* keyname = vconf_keynode_get_name(key);
+	const char* keyname = vconf_keynode_get_name(key);
 	int time = -1, err= -1;
 
 	if (keyname == NULL)
@@ -248,7 +248,7 @@ static void device_battery_time_timetofull_inside_cb(keynode_t* key, void* user_
 
 static void device_battery_time_timetoempty_inside_cb(keynode_t* key, void* user_data)
 {
-	char* keyname = vconf_keynode_get_name(key);
+	const char* keyname = vconf_keynode_get_name(key);
 	int time = -1, err= -1;
 
 	if (keyname == NULL)
