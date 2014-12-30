@@ -21,7 +21,7 @@
 #include <string.h>
 #include <assert.h>
 #include "device.h"
-#include "device_log.h"
+#include "common.h"
 
 #define PROC_STAT		"/proc/stat"
 

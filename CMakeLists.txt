@@ -10,7 +10,7 @@ SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(INC_DIR include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
-SET(dependents "devman dlog vconf capi-base-common")
+SET(dependents "deviced dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info")
 SET(pc_dependents "capi-base-common")
 
 INCLUDE(FindPkgConfig)
@@ -19,7 +19,7 @@ FOREACH(flag ${${fw_name}_CFLAGS})
     SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fPIC -Wall -Werror")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fPIC -Wall")
 SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
 
 IF("${ARCH}" STREQUAL "arm")
@@ -44,11 +44,12 @@ SET_TARGET_PROPERTIES(${fw_name}
 )
 
 INSTALL(TARGETS ${fw_name} DESTINATION ${LIB_INSTALL_DIR})
+INSTALL(FILES ${INC_DIR}/device.h ${INC_DIR}/device-error.h
+		DESTINATION include/system)
 INSTALL(
-        DIRECTORY ${INC_DIR}/ DESTINATION include/system
+        DIRECTORY ${INC_DIR}/ DESTINATION include/device
         FILES_MATCHING
-        PATTERN "*_private.h" EXCLUDE
-        PATTERN "*_log.h" EXCLUDE
+        PATTERN "device.h" EXCLUDE
         PATTERN "${INC_DIR}/*.h"
         )
 
