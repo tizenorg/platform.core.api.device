@@ -21,7 +21,7 @@
 #define __TIZEN_SYSTEM_DEVICE_H__
 
 #include <stdbool.h>
-#include <tizen_error.h>
+#include "device-error.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,17 +32,6 @@ extern "C" {
  * @addtogroup CAPI_SYSTEM_DEVICE_MODULE
  * @{
  */
-
-/**
- * @brief Enumerations of error code for Device.
- */
-typedef enum
-{
-    DEVICE_ERROR_NONE              = TIZEN_ERROR_NONE,                  /**< Successful */
-    DEVICE_ERROR_INVALID_PARAMETER = TIZEN_ERROR_INVALID_PARAMETER,   /**< Invalid parameter */
-    DEVICE_ERROR_OPERATION_FAILED  = TIZEN_ERROR_SYSTEM_CLASS | 0x12, /**< Operation failed */
-    DEVICE_ERROR_NOT_SUPPORTED     = TIZEN_ERROR_SYSTEM_CLASS | 0x13, /**< Not supported in this device */
-} device_error_e;
 
 /**
  * @brief Enumerations of the battery warning status
