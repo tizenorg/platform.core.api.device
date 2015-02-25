@@ -33,6 +33,22 @@ struct pending_call_data {
 	void *data;
 };
 
+static int convert_error_to_errno(const char *err)
+{
+	/**
+	 * if device is not supported,
+	 * deviced does not register the method call of the device.
+	 * in this case, dbus will return UNKNOWN_METHOD error.
+	 */
+	if (strncmp(err, DBUS_ERROR_UNKNOWN_METHOD,
+				sizeof(DBUS_ERROR_UNKNOWN_METHOD)) == 0)
+		return -ENOTSUP;
+	else if (strncmp(err, DBUS_ERROR_ACCESS_DENIED,
+				sizeof(DBUS_ERROR_ACCESS_DENIED)) == 0)
+		return -EACCES;
+	return -ECOMM;
+}
+
 static int append_variant(DBusMessageIter *iter, const char *sig, char *param[])
 {
 	char *ch;
@@ -108,8 +124,9 @@ int dbus_method_sync(const char *dest, const char *path,
 	if (!reply) {
 		_E("dbus_connection_send error(%s:%s) %s %s:%s-%s",
 			err.name, err.message, dest, path, interface, method);
+		ret = convert_error_to_errno(err.name);
 		dbus_error_free(&err);
-		return -ECOMM;
+		return ret;
 	}
 
 	ret = dbus_message_get_args(reply, &err, DBUS_TYPE_INT32, &result, DBUS_TYPE_INVALID);
