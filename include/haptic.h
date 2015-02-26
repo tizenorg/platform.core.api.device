@@ -70,7 +70,8 @@ int device_haptic_get_count(int *device_number);
  *
  * @remarks You must close the Haptic API using device_haptic_close().
  *
- * @param[in] device_index The index of device what you want to vibrate
+ * @param[in] device_index The index of device what you want to vibrate \n
+ *                         The index starts from @c 0.
  * @param[out] device_handle The handle of vibrator
  *
  * @return @c 0 on success,
