@@ -18,8 +18,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <dd-display.h>
-#include <dd-battery.h>
 #include <vconf.h>
 
 #include "device.h"
@@ -36,127 +34,34 @@
 
 int device_get_display_numbers(int* device_number)
 {
-	if(device_number == NULL)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	*device_number = display_get_count();
-	CHECK_ERR(*device_number);
-
-	return DEVICE_ERROR_NONE;
+	return device_display_get_numbers(device_number);
 }
 
 int device_get_brightness(int disp_idx, int* value)
 {
-	int val, max_id, ret;
-
-	if(value == NULL)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_display_numbers(&max_id);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(disp_idx < 0 || disp_idx >= max_id)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	val = display_get_brightness();
-	CHECK_ERR(val);
-
-	*value = val;
-	return DEVICE_ERROR_NONE;
+	return device_display_get_brightness(disp_idx, value);
 }
 
 int device_set_brightness(int disp_idx, int new_value)
 {
-	int max_value, val, max_id, ret;
-
-	if(new_value < 0)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_display_numbers(&max_id);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(disp_idx < 0 || disp_idx >= max_id)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_max_brightness(disp_idx, &max_value);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(new_value > max_value)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	val = display_set_brightness(new_value);
-	CHECK_ERR(val);
-
-	return DEVICE_ERROR_NONE;
+	_E("Deprecated api.");
+	return DEVICE_ERROR_NOT_SUPPORTED;
 }
 
 int device_get_max_brightness(int disp_idx, int* max_value)
 {
-	int val, max_id, ret;
-
-	if(max_value == NULL)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_display_numbers(&max_id);
-	_E("max id : %d", max_id);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(disp_idx < 0 || disp_idx >= max_id)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	val = display_get_max_brightness();
-	CHECK_ERR(val);
-
-	*max_value = val;
-	return DEVICE_ERROR_NONE;
+	return device_display_get_max_brightness(disp_idx, max_value);
 }
 
 int device_set_brightness_from_settings(int disp_idx)
 {
-	int max_id, val, ret;
-
-	ret = device_get_display_numbers(&max_id);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(disp_idx < 0 || disp_idx >= max_id)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	val = display_release_brightness();
-	CHECK_ERR(val);
-
-	return DEVICE_ERROR_NONE;
+	_E("Deprecated api.");
+	return DEVICE_ERROR_NOT_SUPPORTED;
 }
 
 int device_set_brightness_to_settings(int disp_idx, int new_value)
 {
-	int max_value, val, max_id, ret;
-
-	if(new_value < 0)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_display_numbers(&max_id);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(disp_idx < 0 || disp_idx >= max_id)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	ret = device_get_max_brightness(disp_idx, &max_value);
-	if (ret != DEVICE_ERROR_NONE)
-		return ret;
-
-	if(new_value > max_value)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
-	val = display_set_brightness_with_setting(new_value);
-	CHECK_ERR(val);
-
-	return DEVICE_ERROR_NONE;
+	return device_display_set_brightness(disp_idx, new_value);
 }
 
 int device_battery_get_detail(int *percent)
@@ -167,13 +72,20 @@ int device_battery_get_detail(int *percent)
 
 int device_battery_is_full(bool* full)
 {
+	device_battery_level_e status;
+	int ret;
+
 	if (full == NULL)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 
-	int f = battery_is_full();
-	CHECK_ERR(f);
+	ret = device_battery_get_level_status(&status);
+	CHECK_ERR(ret);
 
-	*full = (f == 1) ? true : false;
+	if (status == DEVICE_BATTERY_LEVEL_FULL)
+		*full = true;
+	else
+		*full = false;
+
 	return DEVICE_ERROR_NONE;
 }
 

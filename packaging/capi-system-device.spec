@@ -7,7 +7,6 @@ License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 Source1:    capi-system-device.manifest
 BuildRequires:  cmake
-BuildRequires:  pkgconfig(deviced)
 BuildRequires:  pkgconfig(capi-base-common)
 BuildRequires:  pkgconfig(capi-system-info)
 BuildRequires:  pkgconfig(dlog)

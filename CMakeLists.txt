@@ -10,7 +10,7 @@ SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(INC_DIR include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
-SET(dependents "deviced dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info")
+SET(dependents "dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info")
 SET(pc_dependents "capi-base-common")
 
 INCLUDE(FindPkgConfig)
