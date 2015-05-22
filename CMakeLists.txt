@@ -11,7 +11,7 @@ SET(INC_DIR include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
 INCLUDE(FindPkgConfig)
-pkg_check_modules(${fw_name} REQUIRED dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info gio-2.0)
+pkg_check_modules(${fw_name} REQUIRED dlog vconf capi-base-common capi-system-info gio-2.0)
 FOREACH(flag ${${fw_name}_CFLAGS})
     SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
