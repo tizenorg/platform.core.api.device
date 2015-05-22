@@ -39,6 +39,8 @@ static inline int errno_to_device_error(int err)
 {
 	if (err == -EACCES)
 		return DEVICE_ERROR_PERMISSION_DENIED;
+	else if (err == -EBUSY)
+		return DEVICE_ERROR_RESOURCE_BUSY;
 	else if (err == -ENOTSUP || err == -ENODEV || err == -ENOENT)
 		return DEVICE_ERROR_NOT_SUPPORTED;
 	else if (err < 0)
