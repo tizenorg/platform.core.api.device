@@ -124,6 +124,28 @@ int device_power_release_lock(power_lock_e type);
 int device_power_wakeup(bool dim);
 
 /**
+ * @platform
+ * @brief Reboots the device.
+ * @details Will not return if the reboot is successful. \n
+ *          It operates asynchronously.
+ *
+ * @since_tizen 2.3.1
+ * @privlevel platform
+ * @privilege %http://tizen.org/privilege/reboot
+ *
+ * @param[in] reason Pass to the platform and kernel to request special reboot reason, or null.
+ *
+ * @return @c 0 on success,
+ *         otherwise a negative error value
+ *
+ * @retval #DEVICE_ERROR_NONE               Successful
+ * @retval #DEVICE_ERROR_INVALID_PARAMETER  Invalid parameter
+ * @retval #DEVICE_ERROR_PERMISSION_DENIED  Permission denied
+ * @retval #DEVICE_ERROR_OPERATION_FAILED   Operation failed
+ */
+int device_power_reboot(const char *reason);
+
+/**
  * @}
  */
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Samsung Electronics Co., Ltd All Rights Reserved
+ * Copyright (c) 2011 - 2015 Samsung Electronics Co., Ltd All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@
 #define METHOD_LOCK_STATE       "lockstate"
 #define METHOD_UNLOCK_STATE     "unlockstate"
 #define METHOD_CHANGE_STATE     "changestate"
+#define METHOD_REBOOT           "Reboot"
 
 #define STR_STAYCURSTATE "staycurstate"
 #define STR_GOTOSTATENOW "gotostatenow"
@@ -214,4 +215,20 @@ int device_power_wakeup(bool dim)
 		return device_display_change_state(DISPLAY_STATE_SCREEN_DIM);
 
 	return device_display_change_state(DISPLAY_STATE_NORMAL);
+}
+
+int device_power_reboot(const char *reason)
+{
+	char *arr[1];
+	int ret;
+
+	if (!reason)
+		return DEVICE_ERROR_INVALID_PARAMETER;
+
+	arr[0] = (char *)reason;
+	ret = dbus_method_sync(DEVICED_BUS_NAME,
+			DEVICED_PATH_POWER,
+			DEVICED_INTERFACE_POWER,
+			METHOD_REBOOT, "s", arr);
+	return errno_to_device_error(ret);
 }

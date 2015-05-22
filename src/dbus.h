@@ -42,6 +42,10 @@
 #define DEVICED_PATH_LED                    DEVICED_OBJECT_PATH"/Led"
 #define DEVICED_INTERFACE_LED               DEVICED_INTERFACE_NAME".Led"
 
+/* Power service: request to reboot */
+#define DEVICED_PATH_POWER                  DEVICED_OBJECT_PATH"/Power"
+#define DEVICED_INTERFACE_POWER             DEVICED_INTERFACE_NAME".power"
+
 int dbus_method_sync(const char *dest, const char *path,
 		const char *interface, const char *method,
 		const char *sig, char *param[]);
