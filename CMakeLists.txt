@@ -10,11 +10,8 @@ SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(INC_DIR include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
-SET(dependents "dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info")
-SET(pc_dependents "capi-base-common")
-
 INCLUDE(FindPkgConfig)
-pkg_check_modules(${fw_name} REQUIRED ${dependents})
+pkg_check_modules(${fw_name} REQUIRED dlog vconf dbus-1 dbus-glib-1 capi-base-common capi-system-info gio-2.0)
 FOREACH(flag ${${fw_name}_CFLAGS})
     SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
