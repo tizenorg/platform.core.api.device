@@ -33,7 +33,7 @@ extern "C" {
 /**
  * @brief Gets the number of display devices.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -56,7 +56,7 @@ int device_display_get_numbers(int *device_number);
 /**
  * @brief Gets the maximum brightness value that can be set.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -83,7 +83,7 @@ int device_display_get_max_brightness(int display_index, int *max_brightness);
 /**
  * @brief Gets the display brightness value.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -110,7 +110,7 @@ int device_display_get_brightness(int display_index, int *brightness);
 /**
  * @brief Sets the display brightness value.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -138,7 +138,7 @@ int device_display_set_brightness(int display_index, int brightness);
 /**
  * @brief   Enumeration for the available display states.
  * @details An application cannot put the device into the power off state or the suspend state.
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
 typedef enum
 {
@@ -150,7 +150,7 @@ typedef enum
 /**
  * @brief Gets the current display state.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -172,7 +172,7 @@ int device_display_get_state(display_state_e *state);
 /**
  * @brief Changes the display state by force.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *

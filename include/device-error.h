@@ -32,6 +32,7 @@ extern "C" {
 
 /**
  * @brief Enumerations of error code for Device.
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
 typedef enum
 {

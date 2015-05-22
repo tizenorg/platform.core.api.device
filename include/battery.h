@@ -33,7 +33,7 @@ extern "C" {
 
 /**
  * @brief Enumeration for the battery level status.
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
 typedef enum
 {
@@ -49,8 +49,8 @@ typedef enum
  * @details It returns an integer value from @c 0 to @c 100 that indicates remaining battery charge
  *          as a percentage of the maximum level.
  *
- * @since_tizen 2.3
- * 
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
+ *
  * @remarks In order to be notified when the battery state changes, use system_info_set_changed_cb().
  *
  * @param[out] percent The remaining battery charge percentage (@c 0 ~ @c 100)
@@ -68,7 +68,7 @@ int device_battery_get_percent(int *percent);
 /**
  * @brief Gets the charging state.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @param[out] charging The battery charging state
  *
@@ -88,7 +88,7 @@ int device_battery_is_charging(bool *charging);
 /**
  * @brief Gets the battery level status.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @param[out] status The battery level status
  *
