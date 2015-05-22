@@ -43,7 +43,7 @@ typedef void* haptic_effect_h;
 /**
  * @brief Gets the number of vibrators.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/haptic
  *
@@ -64,7 +64,7 @@ int device_haptic_get_count(int *device_number);
  * @brief Opens a haptic-vibration device.
  * @details Internally, it makes a connection to the vibrator.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/haptic
  *
@@ -91,7 +91,7 @@ int device_haptic_open(int device_index, haptic_device_h *device_handle);
  * @brief Closes a haptic-vibration device.
  * @details Internally, it disconnects the connection to the vibrator.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/haptic
  *
@@ -114,7 +114,7 @@ int device_haptic_close(haptic_device_h device_handle);
  * @brief Vibrates during the specified time with a constant intensity.
  * @details This function can be used to start monotonous vibration for the specified time.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/haptic
  *
@@ -145,7 +145,7 @@ int device_haptic_vibrate(haptic_device_h device_handle,
  * @brief Stops all vibration effects which are being played.
  * @details This function can be used to stop all effects started by device_haptic_vibrate().
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/haptic
  *

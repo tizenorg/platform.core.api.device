@@ -33,7 +33,7 @@ extern "C" {
 
 /**
  * @brief Enumeration for the device state callback.
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
 typedef enum
 {
@@ -54,7 +54,7 @@ typedef enum
  *          DEVICE_CALLBACK_BATTERY_CHARGING        bool \n
  *          DEVICE_CALLBACK_DISPLAY_STATE           int
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @param[out] type          The device type to monitor
  * @param[out] value         The changed value \n
@@ -65,7 +65,7 @@ typedef void (*device_changed_cb)(device_callback_e type, void *value, void *use
 /**
  * @brief Adds a callback to the observing device state.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @param[in] type          The device type to monitor
  * @param[in] callback      The callback function to add
@@ -84,7 +84,7 @@ int device_add_callback(device_callback_e type, device_changed_cb callback, void
 /**
  * @brief Removes a device callback function.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @param[in] type          The device type to monitor
  * @param[in] callback      The callback function to remove

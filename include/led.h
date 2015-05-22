@@ -33,7 +33,7 @@ extern "C" {
 /**
  * @brief Gets the max brightness value of a LED that is located next to the camera.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
@@ -53,7 +53,7 @@ int device_flash_get_max_brightness(int *max_brightness);
 /**
  * @brief Gets the brightness value of a LED that is located next to the camera.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
@@ -73,7 +73,7 @@ int device_flash_get_brightness(int *brightness);
 /**
  * @brief Sets the brightness value of a LED that is located next to the camera.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
@@ -92,7 +92,7 @@ int device_flash_set_brightness(int brightness);
 
 /**
  * @brief Enumeration for custom LED flags.
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
 typedef enum {
     LED_CUSTOM_DUTY_ON = 1 << 0,                /**< blink LED */
@@ -102,7 +102,7 @@ typedef enum {
 /**
  * @brief Plays the custom effect of the service LED that is located to the front of a device.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
@@ -126,7 +126,7 @@ int device_led_play_custom(int on, int off, unsigned int color, unsigned int fla
 /**
  * @brief Stops the custom effect of the service LED that is located to the front of a device.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *

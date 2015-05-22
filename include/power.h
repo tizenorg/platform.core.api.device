@@ -40,7 +40,7 @@ extern "C" {
  *          POWER_LOCK_DISPLAY      ON      ON(normal) \n
  *          POWER_LOCK_DISPLAY_DIM  ON      ON(dim)
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  *
  * @remarks An application can lock the specific type.
  * @remarks These enums are mutually exclusive.
@@ -58,7 +58,7 @@ typedef enum
  * @brief Locks the given lock state for a specified time.
  * @details After the given @a timeout_ms (in milliseconds), unlock the given lock state automatically.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -83,7 +83,7 @@ int device_power_request_lock(power_lock_e type, int timeout_ms);
 /**
  * @brief Releases the given lock state locked before.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
@@ -104,7 +104,7 @@ int device_power_release_lock(power_lock_e type);
 /**
  * @brief Changes the current power state to the normal/dim state.
  *
- * @since_tizen 2.3
+ * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/display
  *
