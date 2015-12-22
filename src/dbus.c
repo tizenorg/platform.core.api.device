@@ -90,7 +90,7 @@ int dbus_method_sync(const char *dest, const char *path,
 	GVariant *output;
 	int result;
 
-#if !GLIB_CHECK_VERSION(2,35,0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init();
 #endif
 
@@ -180,7 +180,7 @@ int dbus_method_async_with_reply(const char *dest, const char *path,
 	struct pending_call_data *pdata;
 	int result;
 
-#if !GLIB_CHECK_VERSION(2,35,0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init();
 #endif
 

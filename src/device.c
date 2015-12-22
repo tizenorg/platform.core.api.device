@@ -30,7 +30,7 @@
 				return DEVICE_ERROR_NOT_SUPPORTED;	\
 			return DEVICE_ERROR_OPERATION_FAILED;	\
 		}	\
-	} while(0)
+	} while (0)
 
 int device_get_display_numbers(int* device_number)
 {
@@ -117,15 +117,14 @@ static void battery_changed_inside_cb(keynode_t* key, void* user_data)
 
 	if (keyname != NULL && changed_callback != NULL && strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_CAPACITY) == 0) {
 		int percent = 0;
-		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_CAPACITY, &percent) == 0) {
+		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_CAPACITY, &percent) == 0)
 			changed_callback(percent, changed_callback_user_data);
-		}
 	}
 }
 
 int device_battery_set_cb(device_battery_cb callback, void* user_data)
 {
-	// VCONFKEY_SYSMAN_BATTERY_CAPACITY
+	/* VCONFKEY_SYSMAN_BATTERY_CAPACITY */
 	int err;
 	if (callback == NULL)
 		return DEVICE_ERROR_INVALID_PARAMETER;
@@ -163,19 +162,19 @@ int device_battery_get_warning_status(device_battery_warn_e *status)
 	if (err < 0)
 		return DEVICE_ERROR_OPERATION_FAILED;
 
-	if (value == VCONFKEY_SYSMAN_BAT_POWER_OFF) {
+	if (value == VCONFKEY_SYSMAN_BAT_POWER_OFF)
 		*status = DEVICE_BATTERY_WARN_EMPTY;
-	} else if (value == VCONFKEY_SYSMAN_BAT_CRITICAL_LOW) {
+	else if (value == VCONFKEY_SYSMAN_BAT_CRITICAL_LOW)
 		*status = DEVICE_BATTERY_WARN_CRITICAL;
-	} else if (value == VCONFKEY_SYSMAN_BAT_WARNING_LOW) {
+	else if (value == VCONFKEY_SYSMAN_BAT_WARNING_LOW)
 		*status = DEVICE_BATTERY_WARN_LOW;
-	} else if (value == VCONFKEY_SYSMAN_BAT_NORMAL) {
+	else if (value == VCONFKEY_SYSMAN_BAT_NORMAL)
 		*status = DEVICE_BATTERY_WARN_NORMAL;
-	} else if (value == VCONFKEY_SYSMAN_BAT_FULL) {
+	else if (value == VCONFKEY_SYSMAN_BAT_FULL)
 		*status = DEVICE_BATTERY_WARN_FULL;
-	} else {
+	else
 		return DEVICE_ERROR_OPERATION_FAILED;
-	}
+
 
 	return DEVICE_ERROR_NONE;
 }
@@ -189,15 +188,14 @@ static void battery_warn_changed_inside_cb(keynode_t* key, void* user_data)
 
 	if (keyname != NULL && warn_changed_callback != NULL && strcmp(keyname, VCONFKEY_SYSMAN_BATTERY_STATUS_LOW) == 0) {
 		int bat_state = 0;
-		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, &bat_state) == 0) {
+		if (vconf_get_int(VCONFKEY_SYSMAN_BATTERY_STATUS_LOW, &bat_state) == 0)
 			warn_changed_callback(bat_state-1, warn_changed_callback_user_data);
-		}
 	}
 }
 
 int device_battery_warning_set_cb(device_battery_warn_cb callback, void* user_data)
 {
-	// VCONFKEY_SYSMAN_BATTERY_STATUS_LOW
+	/* VCONFKEY_SYSMAN_BATTERY_STATUS_LOW */
 	int err;
 
 	if (callback == NULL)

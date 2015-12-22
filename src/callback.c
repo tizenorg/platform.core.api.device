@@ -104,7 +104,7 @@ static void display_changed_cb(keynode_t *key, void *data)
 
 	val = vconf_keynode_get_int(key);
 
-	switch(val) {
+	switch (val) {
 	case 1: state = DISPLAY_STATE_NORMAL;
 			break;
 	case 2: state = DISPLAY_STATE_SCREEN_DIM;
@@ -159,7 +159,7 @@ static int register_signal(const char *bus_name,
 	GDBusConnection *conn;
 	int id;
 
-#if !GLIB_CHECK_VERSION(2,35,0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init();
 #endif
 

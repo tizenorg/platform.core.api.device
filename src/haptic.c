@@ -30,14 +30,12 @@
 #define METHOD_STOP_DEVICE			"StopDevice"
 #define METHOD_VIBRATE_MONOTONE		"VibrateMonotone"
 
-enum feedback_e
-{
+enum feedback_e {
 	HAPTIC_FEEDBACK_MIN = 0,
 	HAPTIC_FEEDBACK_MAX = 100,
 };
 
-enum priority_e
-{
+enum priority_e {
 	HAPTIC_PRIORITY_MIN = 0,
 	HAPTIC_PRIORITY_MIDDLE,
 	HAPTIC_PRIORITY_HIGH,
