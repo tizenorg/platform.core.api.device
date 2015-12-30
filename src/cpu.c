@@ -74,13 +74,13 @@ static int _get_systime(device_system_time_s *st)
 		return -1;
 
 	s++;
-	st->user = strtol(s, &s, 10);
-	st->nice = strtol(s, &s, 10);
-	st->system = strtol(s, &s, 10);
-	st->idle = strtol(s, &s, 10);
-	st->iowait = strtol(s, &s, 10);
-	st->irq = strtol(s, &s, 10);
-	st->softirq = strtol(s, &s, 10);
+	st->user = strtoull(s, &s, 10);
+	st->nice = strtoull(s, &s, 10);
+	st->system = strtoull(s, &s, 10);
+	st->idle = strtoull(s, &s, 10);
+	st->iowait = strtoull(s, &s, 10);
+	st->irq = strtoull(s, &s, 10);
+	st->softirq = strtoull(s, &s, 10);
 
 	return 0;
 }
