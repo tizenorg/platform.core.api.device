@@ -30,6 +30,7 @@
  *   \#include <device/haptic.h> \n
  *   \#include <device/led.h> \n
  *   \#include <device/power.h>
+ *   \#include <device/ir.h>
  *
  * @section CAPI_SYSTEM_DEVICE_MODULE_OVERVIEW Overview
  * The DEVICE API provides functions to control devices or to get status of devices.
@@ -40,6 +41,7 @@
  * - Haptic
  * - LED
  * - Power
+ * - IR
  */
 
 /**
@@ -145,6 +147,19 @@
  * - Battery charging
  * - Display state
  * - Flash led state
+ */
+
+/**
+ * @ingroup CAPI_SYSTEM_DEVICE_MODULE
+ * @defgroup CAPI_SYSTEM_DEVICE_IR_MODULE IR
+ * @brief The IR API provides functions to control a IR transmitter.
+ *
+ * @section CAPI_SYSTEM_DEVICE_IR_MODULE_HEADER Required Header
+ *   \#include <device/ir.h> \n
+ *
+ * @section CAPI_SYSTEM_DEVICE_IR_MODULE_OVERVIEW Overview
+ * The IR API provides the way to get the information whether IR is available and transmit IR command.
+ *
  */
 
 #endif /* __TIZEN_SYSTEM_DEVICE_DOC_H__ */
