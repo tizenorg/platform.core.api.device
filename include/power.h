@@ -35,10 +35,13 @@ extern "C" {
  * @brief Enumeration for lock type.
  * @details Each enum ensures that the suitable device is on
  *          until all the lock requests have been released or after a timeout. \n
- *                                 CPU    Brightness \n
- *          POWER_LOCK_CPU          ON      OFF \n
- *          POWER_LOCK_DISPLAY      ON      ON(normal) \n
- *          POWER_LOCK_DISPLAY_DIM  ON      ON(dim) \n\n
+ *
+ * <TABLE>
+ * <TR><TH>Enum Type</TH><TH>CPU</TH><TH>Brightness(Display)</TH></TR> 
+ * <TR><TD>POWER_LOCK_CPU</TD><TD>ON</TD><TD>OFF</TD></TR>
+ * <TR><TD>POWER_LOCK_DISPLAY</TD><TD>ON</TD><TD>ON(Normal)</TD></TR>
+ * <TR><TD>POWER_LOCK_DISPLAY_DIM</TD><TD>ON</TD><TD>ON(Dim)</TD></TR>
+ * </TABLE>
  *          The POWER_LOCK_DISPLAY and POWER_LOCK_DISPLAY_DIM types were deprecated in Tizen 2.4.\n
  *          Please use below api set instead of these types.\n
  *          int efl_util_set_window_screen_mode(Evas_Object *window, efl_util_screen_mode_e mode);\n
