@@ -12,6 +12,7 @@ BuildRequires:  pkgconfig(capi-system-info)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(vconf)
 BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(tracker)
 
 %description
 A Device library in TIZEN C API package.
