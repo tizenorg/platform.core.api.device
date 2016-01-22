@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <errno.h>
+#include <tracker.h>
 
 #include "power.h"
 #include "display.h"
@@ -60,6 +61,10 @@
 #define STR_LCD_DIM   "lcddim"
 #define STR_LCD_ON    "lcdon"
 
+#define LOCK_CPU_TIMEOUT_MAX       600000 /* milliseconds */
+
+static guint off_lock_timeout;
+
 static char *get_state_str(display_state_e state)
 {
 	switch (state) {
@@ -75,6 +80,51 @@ static char *get_state_str(display_state_e state)
 	return NULL;
 }
 
+static void remove_off_lock_timeout(void)
+{
+	_I("Power lock timeout handler removed");
+	if (off_lock_timeout) {
+		g_source_remove(off_lock_timeout);
+		off_lock_timeout = 0;
+	}
+}
+
+static gboolean off_lock_timeout_expired(gpointer data)
+{
+	int ret, ref;
+
+	_I("Power lock timeout expired");
+
+	ret = tracker_get_power_lock_ref(&ref);
+	if (ret != TRACKER_ERROR_NONE) {
+		_E("Failed to get reference count of power lock");
+		goto out;
+	}
+
+	_I("reference count of power lock is (%d)", ref);
+	if (ref > 0)
+		return G_SOURCE_CONTINUE;
+
+out:
+	ret = device_power_release_lock(POWER_LOCK_CPU);
+	if (ret != DEVICE_ERROR_NONE)
+		_E("Failed to lock power(CPU) again(%d)", ret);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void add_off_lock_timeout(void)
+{
+	guint id;
+
+	remove_off_lock_timeout();
+
+	id = g_timeout_add(LOCK_CPU_TIMEOUT_MAX,
+			off_lock_timeout_expired, NULL);
+	if (id)
+		off_lock_timeout = id;
+}
+
 static void lock_cb(void *data, GVariant *result, GError *err)
 {
 	int ret;
@@ -86,6 +136,9 @@ static void lock_cb(void *data, GVariant *result, GError *err)
 
 	g_variant_get(result, "(i)", &ret);
 	_D("%s-%s : %d", DEVICED_INTERFACE_DISPLAY, METHOD_LOCK_STATE, ret);
+
+	if (ret < 0)
+		remove_off_lock_timeout();
 }
 
 static int lock_state(display_state_e state, unsigned int flag, int timeout_ms)
@@ -159,9 +212,12 @@ int device_power_request_lock(power_lock_e type, int timeout_ms)
 	if (timeout_ms < 0)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 
-	if (type == POWER_LOCK_CPU)
+	if (type == POWER_LOCK_CPU) {
 		ret = lock_state(DISPLAY_STATE_SCREEN_OFF, STAY_CUR_STATE, timeout_ms);
-	else if (type == POWER_LOCK_DISPLAY)
+		if (ret == 0 &&
+			(timeout_ms == 0 || timeout_ms > LOCK_CPU_TIMEOUT_MAX))
+			add_off_lock_timeout();
+	} else if (type == POWER_LOCK_DISPLAY)
 		ret = lock_state(DISPLAY_STATE_NORMAL, STAY_CUR_STATE, timeout_ms);
 	else if (type == POWER_LOCK_DISPLAY_DIM)
 		ret = lock_state(DISPLAY_STATE_SCREEN_DIM, STAY_CUR_STATE, timeout_ms);
@@ -175,9 +231,11 @@ int device_power_release_lock(power_lock_e type)
 {
 	int ret;
 
-	if (type == POWER_LOCK_CPU)
+	if (type == POWER_LOCK_CPU) {
 		ret = unlock_state(DISPLAY_STATE_SCREEN_OFF, PM_SLEEP_MARGIN);
-	else if (type == POWER_LOCK_DISPLAY)
+		if (ret == 0 && off_lock_timeout > 0)
+			remove_off_lock_timeout();
+	} else if (type == POWER_LOCK_DISPLAY)
 		ret = unlock_state(DISPLAY_STATE_NORMAL, PM_KEEP_TIMER);
 	else if (type == POWER_LOCK_DISPLAY_DIM)
 		ret = unlock_state(DISPLAY_STATE_SCREEN_DIM, PM_KEEP_TIMER);
