@@ -50,11 +50,19 @@ static int g_dbus_error_to_errno(int code)
 static GVariant *append_g_variant(const char *sig, char *param[])
 {
 	GVariantBuilder builder;
+	GVariantBuilder *sub_builder;
+	GVariant *var;
+	struct dbus_int *array_int;
 	char *ch;
-	int i;
+	int i, j;
 
 	if (!sig || !param)
 		return NULL;
+
+	if (!g_variant_type_string_is_valid(sig)) {
+		_D("type string is invalid");
+		return NULL;
+	}
 
 	g_variant_builder_init(&builder, G_VARIANT_TYPE_TUPLE);
 
@@ -71,6 +79,22 @@ static GVariant *append_g_variant(const char *sig, char *param[])
 			break;
 		case 's':
 			g_variant_builder_add(&builder, "s", param[i]);
+			break;
+		case 'a':
+			++ch;
+			switch (*ch) {
+			case 'i':
+				sub_builder = g_variant_builder_new(G_VARIANT_TYPE("ai"));
+				array_int = (struct dbus_int *)param[i];
+				for (j = 0; j < array_int->size; j++)
+					g_variant_builder_add(sub_builder, "i", array_int->list[j]);
+				var = g_variant_new("ai", sub_builder);
+				g_variant_builder_unref(sub_builder);
+				g_variant_builder_add_value(&builder, var);
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			return NULL;
@@ -127,6 +151,12 @@ int dbus_method_sync(const char *dest, const char *path,
 			NULL,                         /* GCancellable */
 			&err);
 	if (!output) {
+		if (!err) {
+			_E("g_dbus_proxy_call_sync error : %s-%s",
+					interface, method);
+			g_object_unref(proxy);
+			return result;
+		}
 		_E("g_dbus_proxy_call_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);

@@ -18,6 +18,7 @@
 #ifndef __TIZEN_SYSTEM_IR_H__
 #define __TIZEN_SYSTEM_IR_H__
 
+#include <stdbool.h>
 #include "device-error.h"
 
 #ifdef __cplusplus
