@@ -46,6 +46,16 @@
 #define DEVICED_PATH_POWER                  DEVICED_OBJECT_PATH"/Power"
 #define DEVICED_INTERFACE_POWER             DEVICED_INTERFACE_NAME".power"
 
+/* IR service: transmit IR commands */
+#define DEVICED_PATH_IR                  DEVICED_OBJECT_PATH"/Ir"
+#define DEVICED_INTERFACE_IR             DEVICED_INTERFACE_NAME".ir"
+
+struct dbus_int {
+	int freq;
+	int *list;
+	int size;
+};
+
 int dbus_method_sync(const char *dest, const char *path,
 		const char *interface, const char *method,
 		const char *sig, char *param[]);

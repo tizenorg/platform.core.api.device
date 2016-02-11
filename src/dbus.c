@@ -49,35 +49,61 @@ static int g_dbus_error_to_errno(int code)
 
 static GVariant *append_g_variant(const char *sig, char *param[])
 {
-	GVariantBuilder builder;
+	GVariantBuilder *builder;
+	GVariant *ret;
+	struct dbus_int *pattern;
 	char *ch;
-	int i;
+	char str_sig[32];
+	int i, j;
 
 	if (!sig || !param)
 		return NULL;
 
-	g_variant_builder_init(&builder, G_VARIANT_TYPE_TUPLE);
+	if (!g_variant_type_string_is_valid(sig)) {
+		_D("type string is invalid");
+		return NULL;
+	}
+
+	builder = g_variant_builder_new(G_VARIANT_TYPE(sig));
 
 	for (ch = (char*)sig, i = 0; *ch != '\0'; ++i, ++ch) {
 		switch (*ch) {
 		case 'i':
-			g_variant_builder_add(&builder, "i", atoi(param[i]));
+			g_variant_builder_add(builder, "i", atoi(param[i]));
 			break;
 		case 'u':
-			g_variant_builder_add(&builder, "u", strtoul(param[i], NULL, 10));
+			g_variant_builder_add(builder, "u", strtoul(param[i], NULL, 10));
 			break;
 		case 't':
-			g_variant_builder_add(&builder, "t", atoll(param[i]));
+			g_variant_builder_add(builder, "t", atoll(param[i]));
 			break;
 		case 's':
-			g_variant_builder_add(&builder, "s", param[i]);
+			g_variant_builder_add(builder, "s", param[i]);
+			break;
+		case 'a':
+			++ch;
+			switch (*ch) {
+			case 'i':
+				pattern = (struct dbus_int *)param[i];
+				g_variant_builder_add(builder, "i", pattern->freq);
+				for (j = 0; j < pattern->size; j++){
+					g_variant_builder_add(builder, "i", pattern->list[j]);
+				}
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			return NULL;
 		}
 	}
 
-	return g_variant_builder_end(&builder);
+	snprintf(str_sig, sizeof(str_sig), "%s%s%s", "(", sig, ")");
+	ret = g_variant_new(str_sig, builder);
+	g_variant_builder_unref(builder);
+
+	return ret;
 }
 
 int dbus_method_sync(const char *dest, const char *path,
@@ -127,6 +153,12 @@ int dbus_method_sync(const char *dest, const char *path,
 			NULL,                         /* GCancellable */
 			&err);
 	if (!output) {
+		if (!err) {
+			_E("g_dbus_proxy_call_sync error : %s-%s",
+					interface, method);
+			g_object_unref(proxy);
+			return result;
+		}
 		_E("g_dbus_proxy_call_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);
