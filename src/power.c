@@ -61,9 +61,12 @@
 #define STR_LCD_DIM   "lcddim"
 #define STR_LCD_ON    "lcdon"
 
-#define LOCK_CPU_TIMEOUT_MAX       600000 /* milliseconds */
+#define LOCK_CPU_TIMEOUT_MAX       (60*60*1000) /* milliseconds */
+#define LOCK_CPU_PADDING_TIMEOUT   (20*1000) /* milliseconds */
 
 static guint off_lock_timeout;
+static guint padding_timeout;
+static int prev_count;
 
 static char *get_state_str(display_state_e state)
 {
@@ -82,11 +85,78 @@ static char *get_state_str(display_state_e state)
 
 static void remove_off_lock_timeout(void)
 {
-	_I("Power lock timeout handler removed");
 	if (off_lock_timeout) {
+		_I("Power lock timeout handler removed");
 		g_source_remove(off_lock_timeout);
 		off_lock_timeout = 0;
 	}
+}
+
+static void remove_padding_timeout(void)
+{
+	if (padding_timeout) {
+		_I("Padding timeout handler removed");
+		g_source_remove(padding_timeout);
+		padding_timeout = 0;
+	}
+}
+
+static gboolean padding_timeout_expired(gpointer data)
+{
+	int ret, ref;
+	int count;
+
+	_I("Padding timeout expired");
+
+	remove_padding_timeout();
+
+	ret = tracker_get_power_lock_ref(&ref);
+	if (ret != TRACKER_ERROR_NONE) {
+		_E("Failed to get reference count of power lock");
+		goto out;
+	}
+
+	_I("reference count of power lock is (%d)", ref);
+	if (ref > 0) {
+		_I("Power Lock continue (Reference count > 0 !!)");
+		return G_SOURCE_REMOVE;
+	}
+
+	ret = tracker_get_power_lock_total(&count);
+	if (ret != TRACKER_ERROR_NONE) {
+		_E("Failed to get total count of power lock(%d)", ret);
+		goto out;
+	}
+
+	if (count != prev_count) {
+		_I("Power Lock continue (Total reference count increased !!)");
+		return G_SOURCE_REMOVE;
+	}
+
+out:
+	remove_off_lock_timeout();
+
+	ret = device_power_release_lock(POWER_LOCK_CPU);
+	if (ret != DEVICE_ERROR_NONE)
+		_E("Failed to lock power(CPU) again(%d)", ret);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void add_padding_timeout(void)
+{
+	guint id;
+
+	remove_padding_timeout();
+
+	_I("Padding timeout handler added");
+
+	id = g_timeout_add(LOCK_CPU_PADDING_TIMEOUT,
+			padding_timeout_expired, NULL);
+	if (id)
+		padding_timeout = id;
+	else
+		_E("Failed to add timeout for padding time");
 }
 
 static gboolean off_lock_timeout_expired(gpointer data)
@@ -97,20 +167,23 @@ static gboolean off_lock_timeout_expired(gpointer data)
 
 	ret = tracker_get_power_lock_ref(&ref);
 	if (ret != TRACKER_ERROR_NONE) {
-		_E("Failed to get reference count of power lock");
-		goto out;
+		_E("Failed to get reference count of power lock(%d)", ret);
+		remove_off_lock_timeout();
+		return G_SOURCE_REMOVE;
 	}
 
 	_I("reference count of power lock is (%d)", ref);
 	if (ref > 0)
-		return G_SOURCE_CONTINUE;
+		goto out;
+
+	add_padding_timeout();
+
+	ret = tracker_get_power_lock_total(&prev_count);
+	if (ret != TRACKER_ERROR_NONE)
+		_E("Failed to get total count of power lock(%d)", ret);
 
 out:
-	ret = device_power_release_lock(POWER_LOCK_CPU);
-	if (ret != DEVICE_ERROR_NONE)
-		_E("Failed to lock power(CPU) again(%d)", ret);
-
-	return G_SOURCE_REMOVE;
+	return G_SOURCE_CONTINUE;
 }
 
 static void add_off_lock_timeout(void)
@@ -118,11 +191,16 @@ static void add_off_lock_timeout(void)
 	guint id;
 
 	remove_off_lock_timeout();
+	remove_padding_timeout();
+
+	_I("Power lock timeout handler added");
 
 	id = g_timeout_add(LOCK_CPU_TIMEOUT_MAX,
 			off_lock_timeout_expired, NULL);
 	if (id)
 		off_lock_timeout = id;
+	else
+		_E("Failed to add Power Lock timeout handler");
 }
 
 static void lock_cb(void *data, GVariant *result, GError *err)
@@ -251,8 +329,10 @@ int device_power_release_lock(power_lock_e type)
 
 	if (type == POWER_LOCK_CPU) {
 		ret = unlock_state(DISPLAY_STATE_SCREEN_OFF, PM_SLEEP_MARGIN);
-		if (ret == 0 && off_lock_timeout > 0)
+		if (ret == 0 && off_lock_timeout > 0) {
 			remove_off_lock_timeout();
+			remove_padding_timeout();
+		}
 	} else if (type == POWER_LOCK_DISPLAY)
 		ret = unlock_state(DISPLAY_STATE_NORMAL, PM_KEEP_TIMER);
 	else if (type == POWER_LOCK_DISPLAY_DIM)
