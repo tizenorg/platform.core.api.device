@@ -151,8 +151,6 @@ typedef enum
  * @brief Gets the current display state.
  *
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
- * @privlevel public
- * @privilege %http://tizen.org/privilege/display
  *
  * @param[out] state the display state
  *
