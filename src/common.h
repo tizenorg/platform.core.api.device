@@ -37,16 +37,21 @@
 
 static inline int errno_to_device_error(int err)
 {
-	if (err == -EACCES)
+	switch (err) {
+	case 0:
+		return DEVICE_ERROR_NONE;
+	case -EACCES:
+	case -EPERM:
 		return DEVICE_ERROR_PERMISSION_DENIED;
-	else if (err == -EBUSY)
+	case -EBUSY:
 		return DEVICE_ERROR_RESOURCE_BUSY;
-	else if (err == -ENOTSUP || err == -ENODEV || err == -ENOENT)
+	case -ENOTSUP:
+	case -ENODEV:
+	case -ENOENT:
 		return DEVICE_ERROR_NOT_SUPPORTED;
-	else if (err < 0)
+	default:
 		return DEVICE_ERROR_OPERATION_FAILED;
-
-	return DEVICE_ERROR_NONE;
+	}
 }
 
 #endif /* __COMMON_H__ */
