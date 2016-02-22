@@ -30,6 +30,7 @@
  *   \#include <device/haptic.h> \n
  *   \#include <device/led.h> \n
  *   \#include <device/power.h>
+ *   \#include <device/ir.h>
  *
  * @section CAPI_SYSTEM_DEVICE_MODULE_OVERVIEW Overview
  * The DEVICE API provides functions to control devices or to get status of devices.
@@ -40,6 +41,7 @@
  * - Haptic
  * - LED
  * - Power
+ * - IR
  */
 
 /**
@@ -106,7 +108,7 @@
  *
  * It is recommended to design feature related codes in your application for reliability.\n
  *
- * You can check if a devrice supports the related features for this API by using @ref CAPI_SYSTEM_SYSTEM_INFO_MODULE, thereby controlling the procedure of your application.\n
+ * You can check if a device supports the related features for this API by using @ref CAPI_SYSTEM_SYSTEM_INFO_MODULE, thereby controlling the procedure of your application.\n
  *
  * To ensure your application is only running on the device with specific features, please define the features in your manifest file using the manifest editor in the SDK.\n
  *
@@ -145,6 +147,30 @@
  * - Battery charging
  * - Display state
  * - Flash led state
+ */
+
+/**
+ * @ingroup CAPI_SYSTEM_DEVICE_MODULE
+ * @defgroup CAPI_SYSTEM_DEVICE_IR_MODULE IR
+ * @brief The IR API provides functions to control a IR transmitter.
+ *
+ * @section CAPI_SYSTEM_DEVICE_IR_MODULE_HEADER Required Header
+ *   \#include <device/ir.h> \n
+ *
+ * @section CAPI_SYSTEM_DEVICE_IR_MODULE_OVERVIEW Overview
+ * The IR API provides the way to get the information whether IR is available and transmit IR command.
+ * @section CAPI_SYSTEM_DEVICE_IR_MODULE_FEATURE Related Features
+ * This API is related with the following feature:\n
+ *  - http://tizen.org/feature/consumer_ir\n
+ *
+ * It is recommended to design feature related codes in your application for reliability.\n
+ *
+ * You can check if a device supports the related features for this API by using @ref CAPI_SYSTEM_SYSTEM_INFO_MODULE, thereby controlling the procedure of your application.\n
+ *
+ * To ensure your application is only running on the device with specific features, please define the features in your manifest file using the manifest editor in the SDK.\n
+ *
+ * More details on featuring your application can be found from <a href="https://developer.tizen.org/development/tools/native-tools/manifest-text-editor#feature"><b>Feature Element</b>.</a>
+ *
  */
 
 #endif /* __TIZEN_SYSTEM_DEVICE_DOC_H__ */
