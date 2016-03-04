@@ -92,6 +92,14 @@ static int lock_state(display_state_e state, unsigned int flag, int timeout_ms)
 {
 	char *arr[4];
 	char str_timeout[32];
+	int ret;
+
+	arr[0] = "";
+	ret = dbus_method_sync(DEVICED_BUS_NAME,
+			DEVICED_PATH_DISPLAY, DEVICED_INTERFACE_DISPLAY,
+			METHOD_CHANGE_STATE, "s", arr);
+	if (ret == -EACCES || ret == -ECOMM || ret == -EPERM)
+		return DEVICE_ERROR_PERMISSION_DENIED;
 
 	arr[0] = get_state_str(state);
 	if (!arr[0])
@@ -133,6 +141,14 @@ static void unlock_cb(void *data, GVariant *result, GError *err)
 static int unlock_state(display_state_e state, unsigned int flag)
 {
 	char *arr[2];
+	int ret;
+
+	arr[0] = "";
+	ret = dbus_method_sync(DEVICED_BUS_NAME,
+			DEVICED_PATH_DISPLAY, DEVICED_INTERFACE_DISPLAY,
+			METHOD_CHANGE_STATE, "s", arr);
+	if (ret == -EACCES || ret == -ECOMM || ret == -EPERM)
+		return DEVICE_ERROR_PERMISSION_DENIED;
 
 	arr[0] = get_state_str(state);
 	if (!arr[0])
