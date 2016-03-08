@@ -59,11 +59,6 @@ static GVariant *append_g_variant(const char *sig, char *param[])
 	if (!sig || !param)
 		return NULL;
 
-	if (!g_variant_type_string_is_valid(sig)) {
-		_D("type string is invalid");
-		return NULL;
-	}
-
 	g_variant_builder_init(&builder, G_VARIANT_TYPE_TUPLE);
 
 	for (ch = (char*)sig, i = 0; *ch != '\0'; ++i, ++ch) {
