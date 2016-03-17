@@ -15,6 +15,7 @@
  */
 
 #include <stdio.h>
+#include <system_info.h>
 
 #include "ir.h"
 #include "common.h"
@@ -22,6 +23,9 @@
 
 #define METHOD_IS_AVAILABLE		"IRIsAvailable"
 #define METHOD_TRANSMIT			"TransmitIR"
+#define IR_FEATURE			"http://tizen.org/feature/consumer_ir"
+
+static bool ir_avail;
 
 int device_ir_is_available(bool *available)
 {
@@ -30,14 +34,12 @@ int device_ir_is_available(bool *available)
 	if (!available)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 
-	ret = dbus_method_sync(DEVICED_BUS_NAME, DEVICED_PATH_IR,
-			DEVICED_INTERFACE_IR, METHOD_IS_AVAILABLE,
-			NULL, NULL);
+	ret = system_info_get_platform_bool(IR_FEATURE, &ir_avail);
 
 	if (ret < 0)
 		return DEVICE_ERROR_OPERATION_FAILED;
 
-	*available = ret;
+	*available = ir_avail;
 	return DEVICE_ERROR_NONE;
 }
 
@@ -49,8 +51,15 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 	int ret;
 	int i;
 
+	if (!ir_avail) {
+		_E("IR is not supported");
+		return DEVICE_ERROR_NOT_SUPPORTED;
+	}
+
+	if (!pattern)
+		return DEVICE_ERROR_INVALID_PARAMETER;
 	if (size <= 0) {
-		_D("IR pattern size is invalid");
+		_E("IR pattern size is invalid");
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	}
 
