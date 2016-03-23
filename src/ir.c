@@ -66,6 +66,13 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 	int i;
 	bool ir_avail;
 
+	if (!pattern)
+		return DEVICE_ERROR_INVALID_PARAMETER;
+	if (size <= 0) {
+		_E("IR pattern size is invalid");
+		return DEVICE_ERROR_INVALID_PARAMETER;
+	}
+
 	ret = device_ir_is_available(&ir_avail);
 	if (!ir_avail) {
 		if (ret < 0) {
@@ -74,13 +81,6 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 		}
 		_E("IR is not supported");
 		return DEVICE_ERROR_OPERATION_FAILED;
-	}
-
-	if (!pattern)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-	if (size <= 0) {
-		_E("IR pattern size is invalid");
-		return DEVICE_ERROR_INVALID_PARAMETER;
 	}
 
 	freq_pattern[0] = carrier_frequency;
