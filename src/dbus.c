@@ -150,7 +150,7 @@ int dbus_method_sync(const char *dest, const char *path,
 			_E("g_dbus_proxy_call_sync error : %s-%s",
 					interface, method);
 			g_object_unref(proxy);
-			return result;
+			return -EPERM;
 		}
 		_E("g_dbus_proxy_call_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
