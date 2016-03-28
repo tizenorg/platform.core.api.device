@@ -31,18 +31,16 @@ int device_ir_is_available(bool *available)
 	int ret;
 	bool ir_avail;
 
-	if (!available)
-		return DEVICE_ERROR_INVALID_PARAMETER;
-
 	ret = system_info_get_platform_bool(IR_FEATURE, &ir_avail);
 
 	if (ret < 0) {
-		*available = false;
 		return DEVICE_ERROR_OPERATION_FAILED;
 	} else if (ret == 0 && !ir_avail) {
-		*available = false;
 		return DEVICE_ERROR_NOT_SUPPORTED;
 	}
+
+	if (!available)
+		return DEVICE_ERROR_INVALID_PARAMETER;
 
 	ret = dbus_method_sync(DEVICED_BUS_NAME, DEVICED_PATH_IR,
 			DEVICED_INTERFACE_IR, METHOD_IS_AVAILABLE,
@@ -67,14 +65,12 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 	bool ir_avail;
 
 	ret = device_ir_is_available(&ir_avail);
-	if (!ir_avail) {
-		if (ret < 0) {
-			_E("IR is not supported or IR operation failed");
-			return ret;
-		}
-		_E("IR is not supported");
-		return DEVICE_ERROR_OPERATION_FAILED;
+	if (ret < 0) {
+		_E("IR is not supported or IR operation failed");
+		return ret;
 	}
+	if (!ir_avail)
+		return DEVICE_ERROR_OPERATION_FAILED;
 
 	if (!pattern)
 		return DEVICE_ERROR_INVALID_PARAMETER;
