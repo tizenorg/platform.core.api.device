@@ -36,8 +36,7 @@ extern "C" {
 /**
  * @brief Enumerations of the battery warning status
  */
-typedef enum
-{
+typedef enum {
     DEVICE_BATTERY_WARN_EMPTY,      /**< The battery goes empty. Prepare for the safe termination of the application, because the device starts a shutdown process soon after entering this level. */
     DEVICE_BATTERY_WARN_CRITICAL,  /**< The battery charge is at a critical state. You may have to stop using multimedia features, because they are not guaranteed to work correctly at this battery status. */
     DEVICE_BATTERY_WARN_LOW,       /**< The battery has little charge left. */
@@ -48,8 +47,7 @@ typedef enum
 /**
  * @brief Enumerations of the battery remaining time type
  */
-typedef enum
-{
+typedef enum {
     DEVICE_BATTERY_REMAINING_TIME_TO_FULLY_CHARGED,
     DEVICE_BATTERY_REMAINING_TIME_TO_DISCHARGED
 } device_battery_remaining_time_type_e;
@@ -57,8 +55,7 @@ typedef enum
 /**
  * @brief Enumerations of the battery level status
  */
-typedef enum
-{
+typedef enum {
     DEVICE_BATTERY_LEVEL_EMPTY = 0,      /**< The battery goes empty. Prepare for the safe termination of the application, because the device starts a shutdown process soon after entering this level. */
     DEVICE_BATTERY_LEVEL_CRITICAL,  /**< The battery charge is at a critical state. You may have to stop using multimedia features, because they are not guaranteed to work correctly at this battery status. */
     DEVICE_BATTERY_LEVEL_LOW,       /**< The battery has little charge left. */
