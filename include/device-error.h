@@ -34,8 +34,7 @@ extern "C" {
  * @brief Enumerations of error code for Device.
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
-typedef enum
-{
+typedef enum {
 	DEVICE_ERROR_NONE                = TIZEN_ERROR_NONE,                /**< Successful */
 	DEVICE_ERROR_OPERATION_FAILED    = TIZEN_ERROR_NOT_PERMITTED,       /**< Operation not permitted */
 	DEVICE_ERROR_PERMISSION_DENIED   = TIZEN_ERROR_PERMISSION_DENIED,   /**< Permission denied */

@@ -54,8 +54,7 @@ extern "C" {
  * @remarks You cannot combine with an enum below.
  *
  */
-typedef enum
-{
+typedef enum {
     POWER_LOCK_CPU,         /**< CPU lock */
     POWER_LOCK_DISPLAY,     /**< Display normal lock (Deprecated since 2.4. Use efl_util_set_window_screen_mode() instead) */
     POWER_LOCK_DISPLAY_DIM, /**< Display dim lock (Deprecated since 2.4. Use efl_util_set_window_screen_mode() instead) */

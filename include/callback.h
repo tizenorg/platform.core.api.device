@@ -35,8 +35,7 @@ extern "C" {
  * @brief Enumeration for the device state callback.
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
-typedef enum
-{
+typedef enum {
     DEVICE_CALLBACK_BATTERY_CAPACITY,    /**< Called when a battery charge percentage is changed */
     DEVICE_CALLBACK_BATTERY_LEVEL,       /**< Called when a battery level is changed */
     DEVICE_CALLBACK_BATTERY_CHARGING,    /**< Called when battery charging state is changed */

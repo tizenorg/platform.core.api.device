@@ -35,8 +35,7 @@ extern "C" {
  * @brief Enumeration for the battery level status.
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  */
-typedef enum
-{
+typedef enum {
     DEVICE_BATTERY_LEVEL_EMPTY = 0,  /**< The battery goes empty. Prepare for the safe termination of the application, because the device starts a shutdown process soon after entering this level. */
     DEVICE_BATTERY_LEVEL_CRITICAL,   /**< The battery charge is at a critical state. You may have to stop using multimedia features, because they are not guaranteed to work correctly at this battery status. */
     DEVICE_BATTERY_LEVEL_LOW,        /**< The battery has little charge left. */
