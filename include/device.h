@@ -94,7 +94,7 @@ typedef struct {
  * @param[in] user_data     The user data passed from the callback registration function
  *
  */
-typedef void (*device_battery_cb)(int percent, void *user_data); 
+typedef void (*device_battery_cb)(int percent, void *user_data);
 
 /**
  * @brief Called when the device warn about the battery status.
@@ -108,7 +108,7 @@ typedef void (*device_battery_warn_cb)(device_battery_warn_e status, void *user_
 /**
  * @brief This callback take remained time for fully charged or discharged.
  *
- * @param[in] time         The battery remainig seconds to fully chagred or discharged
+ * @param[in] time         The battery remaining seconds to fully charged or discharged
  * @param[in] user_data    The user data passed from the callback registration function
  *
  */
@@ -259,7 +259,7 @@ int device_battery_is_full(bool *full);
  * @remark @a time will be retrieved the time to fully charged or discharged depending on @a type
  *
  * @param[in]  type   The type of battery remaining time
- * @param[out] time   battery remainig seconds to fully chagred or discharged
+ * @param[out] time   battery remaining seconds to fully charged or discharged
 
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
@@ -292,7 +292,7 @@ int device_battery_set_remaining_time_changed_cb(
 /**
  * @brief Unset battery remaining time callback function.
  *
- * @param[in] type The type of battery remainig time
+ * @param[in] type The type of battery remaining time
  *
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
@@ -409,7 +409,7 @@ int device_set_brightness(int display_index, int brightness);
 int device_get_max_brightness(int display_index, int *max_brightness);
 
 /**
- * @brief Sets the display brightness value from registed in settings.
+ * @brief Sets the display brightness value from registered in settings.
  *
  * @details
  * This function set display brightness to condition in the settings.
@@ -461,17 +461,22 @@ int device_set_brightness_to_settings(int display_index, int brightness);
 /**
  * @brief Get brightness value of LED that placed to camera flash.
  *
+ * @remark This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
+ *
  * @param[out] brightness brightness value of LED (0 ~ MAX)
  *
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED      Not supported device
  */
 int device_flash_get_brightness(int *brightness);
 
 /**
  * @brief Set brightness value of LED that placed to camera flash.
+ *
+ * @remark This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[in] brightness brightness value of LED (0 ~ MAX)
  *
@@ -479,6 +484,7 @@ int device_flash_get_brightness(int *brightness);
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED      Not supported device
  */
 int device_flash_set_brightness(int brightness);
 
@@ -486,9 +492,10 @@ int device_flash_set_brightness(int brightness);
  * @brief Get max brightness value of LED that placed to camera flash.
  *
  * @remark
- * Brightness control does not support yet. so this functioon always return 1. \n
+ * Brightness control does not support yet. so this function always return 1. \n
  * Set function can only use to switch on/off the flash. \n
- * Get function can only use to retrive on/off state of flash.
+ * Get function can only use to retrieve on/off state of flash.
+ * This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[out] max_brightness max brightness value of LED
  *
@@ -496,6 +503,7 @@ int device_flash_set_brightness(int brightness);
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED      Not supported device
  */
 int device_flash_get_max_brightness(int *max_brightness);
 
