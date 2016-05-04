@@ -37,6 +37,8 @@ extern "C" {
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
+ *
  * @param[out] max_brightness The max brightness value of the LED
  *
  * @return @c 0 on success,
@@ -56,6 +58,8 @@ int device_flash_get_max_brightness(int *max_brightness);
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
+ *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[out] brightness The brightness value of LED (@c 0 ~ MAX)
  *
@@ -78,6 +82,7 @@ int device_flash_get_brightness(int *brightness);
  * @privilege %http://tizen.org/privilege/led
  *
  * @remarks Since 2.4, this API check camera flash status whether camera API preempted flash or not, so it could be failed if flash was preempted by camera API. In this case, API will return #DEVICE_ERROR_RESOURCE_BUSY error.
+ * This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[in] brightness The brightness value of LED (@c 0 ~ MAX)
  *
@@ -109,6 +114,8 @@ typedef enum {
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/led
+ *
  * @param[in] on    Turn on time in milliseconds
  * @param[in] off   Turn off time in milliseconds
  * @param[in] color The Color value \n
@@ -132,6 +139,8 @@ int device_led_play_custom(int on, int off, unsigned int color, unsigned int fla
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
+ *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/led
  *
  * @return @c 0 on success,
  *         otherwise a negative error value
