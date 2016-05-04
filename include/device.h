@@ -461,6 +461,9 @@ int device_set_brightness_to_settings(int display_index, int brightness);
 /**
  * @brief Get brightness value of LED that placed to camera flash.
  *
+ * @remark
+ * This API is releated following feature: %http://tizen.org/feature/camera.back.flash
+ *
  * @param[out] brightness brightness value of LED (0 ~ MAX)
  *
  * @return 0 on success, otherwise a negative error value.
@@ -472,6 +475,9 @@ int device_flash_get_brightness(int *brightness);
 
 /**
  * @brief Set brightness value of LED that placed to camera flash.
+ *
+ * @remark
+ * This API is releated following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[in] brightness brightness value of LED (0 ~ MAX)
  *
@@ -489,6 +495,7 @@ int device_flash_set_brightness(int brightness);
  * Brightness control does not support yet. so this functioon always return 1. \n
  * Set function can only use to switch on/off the flash. \n
  * Get function can only use to retrive on/off state of flash.
+ * This API is releated following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[out] max_brightness max brightness value of LED
  *
