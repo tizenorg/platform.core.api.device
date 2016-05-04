@@ -143,7 +143,7 @@ int device_display_set_brightness(int display_index, int brightness);
 typedef enum
 {
     DISPLAY_STATE_NORMAL,      /**< Normal state */
-    DISPLAY_STATE_SCREEN_DIM,  /**< Screen dim state */
+    DISPLAY_STATE_SCREEN_DIM,  /**< @if TV @internal @endif Screen dim state */
     DISPLAY_STATE_SCREEN_OFF,  /**< Screen off state */
 } display_state_e;
 
