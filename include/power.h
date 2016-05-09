@@ -108,7 +108,7 @@ int device_power_request_lock(power_lock_e type, int timeout_ms);
 int device_power_release_lock(power_lock_e type);
 
 /**
- * @deprecated Deprecated Since 2.4
+ * @deprecated Deprecated Since @if WEARABLE 3.0 @else 2.4 @endif
  * @brief Changes the current power state to the normal/dim state.
  *
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif

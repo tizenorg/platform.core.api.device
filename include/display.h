@@ -168,7 +168,7 @@ typedef enum
 int device_display_get_state(display_state_e *state);
 
 /**
- * @deprecated Deprecated Since 2.4
+ * @deprecated Deprecated Since @if WEARABLE 3.0 @else 2.4 @endif
  * @brief Changes the display state by force.
  *
  * @since_tizen @if MOBILE 2.3 @elseif WEARABLE 2.3.1 @endif
