@@ -94,7 +94,7 @@ typedef struct {
  * @param[in] user_data     The user data passed from the callback registration function
  *
  */
-typedef void (*device_battery_cb)(int percent, void *user_data); 
+typedef void (*device_battery_cb)(int percent, void *user_data);
 
 /**
  * @brief Called when the device warn about the battery status.
@@ -108,7 +108,7 @@ typedef void (*device_battery_warn_cb)(device_battery_warn_e status, void *user_
 /**
  * @brief This callback take remained time for fully charged or discharged.
  *
- * @param[in] time         The battery remainig seconds to fully chagred or discharged
+ * @param[in] time         The battery remaining seconds to fully charged or discharged
  * @param[in] user_data    The user data passed from the callback registration function
  *
  */
@@ -256,10 +256,10 @@ int device_battery_is_full(bool *full);
 /**
  * @brief Retrive the remaining time for fully charged or discharged.
  *
- * @remark @a time will be retrieved the time to fully charged or discharged depending on @a type
+ * @remarks @a time will be retrieved the time to fully charged or discharged depending on @a type
  *
  * @param[in]  type   The type of battery remaining time
- * @param[out] time   battery remainig seconds to fully chagred or discharged
+ * @param[out] time   battery remaining seconds to fully charged or discharged
 
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
@@ -274,7 +274,7 @@ int device_battery_get_remaining_time(device_battery_remaining_time_type_e type,
 /**
  * @brief Set callback to be return battery remaining time to fully charged or discharged.
  *
- * @remark @a callback will be retrieved the time to fully charged or discharged depending on @a type
+ * @remarks @a callback will be retrieved the time to fully charged or discharged depending on @a type
  *
  * @param[in] callback      The callback function to set
  * @param[in] user_data     The user data to be passed to the callback function
@@ -292,7 +292,7 @@ int device_battery_set_remaining_time_changed_cb(
 /**
  * @brief Unset battery remaining time callback function.
  *
- * @param[in] type The type of battery remainig time
+ * @param[in] type The type of battery remaining time
  *
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
@@ -409,7 +409,7 @@ int device_set_brightness(int display_index, int brightness);
 int device_get_max_brightness(int display_index, int *max_brightness);
 
 /**
- * @brief Sets the display brightness value from registed in settings.
+ * @brief Sets the display brightness value from registered in settings.
  *
  * @details
  * This function set display brightness to condition in the settings.
@@ -461,17 +461,22 @@ int device_set_brightness_to_settings(int display_index, int brightness);
 /**
  * @brief Get brightness value of LED that placed to camera flash.
  *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
+ *
  * @param[out] brightness brightness value of LED (0 ~ MAX)
  *
  * @return 0 on success, otherwise a negative error value.
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED		Not supported device
  */
 int device_flash_get_brightness(int *brightness);
 
 /**
  * @brief Set brightness value of LED that placed to camera flash.
+ *
+ * @remarks This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[in] brightness brightness value of LED (0 ~ MAX)
  *
@@ -479,16 +484,18 @@ int device_flash_get_brightness(int *brightness);
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED		Not supported device
  */
 int device_flash_set_brightness(int brightness);
 
 /**
  * @brief Get max brightness value of LED that placed to camera flash.
  *
- * @remark
- * Brightness control does not support yet. so this functioon always return 1. \n
+ * @remarks
+ * Brightness control does not support yet. so this function always return 1. \n
  * Set function can only use to switch on/off the flash. \n
- * Get function can only use to retrive on/off state of flash.
+ * Get function can only use to retrieve on/off state of flash.
+ * This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[out] max_brightness max brightness value of LED
  *
@@ -496,13 +503,14 @@ int device_flash_set_brightness(int brightness);
  * @retval #DEVICE_ERROR_NONE				Successful
  * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
  * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
+ * @retval #DEVICE_ERROR_NOT_SUPPORTED		Not supported device
  */
 int device_flash_get_max_brightness(int *max_brightness);
 
 /**
  * @brief Get total amount of physical RAM, in kilobytes
  *
- * @remark
+ * @remarks
  *
  * @param[out] total_mem total amount of physical RAM
  *
@@ -516,7 +524,7 @@ int device_memory_get_total(unsigned int *total_mem);
 /**
  * @brief Get available amount of physical RAM, in kilobytes
  *
- * @remark
+ * @remarks
  * Available amount is defined by following formula currently.
  * available mem = MemFree+Buffers+Cached+SwapCached-Shmem
  *
@@ -532,7 +540,7 @@ int device_memory_get_available(unsigned int *avail_mem);
 /**
  * @brief Get time information the CPU has spent performing work.
  *
- * @remark
+ * @remarks
  * Time units are in USER_HZ (typically hundredths of a second).
  *
  * @param[out] time structure of time information the CPU has spent
@@ -547,8 +555,6 @@ int device_cpu_get_system_time(device_system_time_s *time);
 /**
  * @brief Get all of CPU count
  *
- * @remark
- *
  * @param[out] cpu_cnt total count of CPU
  *
  * @return 0 on success, otherwise a negative error value.
@@ -560,8 +566,6 @@ int device_cpu_get_count(int *cpu_cnt);
 
 /**
  * @brief Get currently frequency of CPU
- *
- * @remark
  *
  * @param[in]  cpu the index of CPU which want to know
  * @param[out] cur_freq currently frequency value of CPU
@@ -575,8 +579,6 @@ int device_cpu_get_current_freq(int cpu, unsigned int *cur_freq);
 
 /**
  * @brief Get max frequency of CPU
- *
- * @remark
  *
  * @param[in]  cpu the index of CPU which want to know
  * @param[out] max_freq max frequency value of CPU
