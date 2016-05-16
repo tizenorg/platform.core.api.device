@@ -58,6 +58,10 @@ struct dbus_int {
 int dbus_method_sync(const char *dest, const char *path,
 		const char *interface, const char *method,
 		const char *sig, char *param[]);
+int dbus_method_sync_with_reply(const char *dest,
+		const char *path, const char *interface,
+		const char *method, const char *sig,
+		char *param[], GVariant **info);
 
 /**
  * If result is NULL, err is set.
