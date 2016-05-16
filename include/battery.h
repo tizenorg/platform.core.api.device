@@ -43,6 +43,37 @@ typedef enum {
     DEVICE_BATTERY_LEVEL_FULL,       /**< The battery status is full. */
 } device_battery_level_e;
 
+typedef enum {
+	DEVICE_BATTERY_HEALTH_GOOD,
+	DEVICE_BATTERY_HEALTH_COLD,
+	DEVICE_BATTERY_HEALTH_DEAD,
+	DEVICE_BATTERY_HEALTH_OVER_HEAT,
+	DEVICE_BATTERY_HEALTH_OVER_VOLTAGE,
+	DEVICE_BATTERY_HEALTH_UNKNOWN,
+	DEVICE_BATTERY_HEALTH_UNSPECIFIED_FAILURE,
+} device_battery_health_e;
+
+typedef enum {
+	DEVICE_BATTERY_POWER_SOURCE_NONE,
+	DEVICE_BATTERY_POWER_SOURCE_AC,
+	DEVICE_BATTERY_POWER_SOURCE_USB,
+	DEVICE_BATTERY_POWER_SOURCE_WIRELESS,
+} device_battery_power_source_e;
+
+typedef enum {
+	DEVICE_BATTERY_PROPERTY_CAPACITY,
+	DEVICE_BATTERY_PROPERTY_CURRENT_NOW,
+	DEVICE_BATTERY_PROPERTY_CURRENT_AVERAGE,
+} device_battery_property_e;
+
+typedef enum {
+	DEVICE_BATTERY_STATUS_CHARGING,
+	DEVICE_BATTERY_STATUS_DISCHARGING,
+	DEVICE_BATTERY_STATUS_FULL,
+	DEVICE_BATTERY_STATUS_NOT_CHARGING,
+	DEVICE_BATTERY_STATUS_UNKNOWN,
+} device_battery_status_e;
+
 /**
  * @brief Gets the battery charge percentage.
  * @details It returns an integer value from @c 0 to @c 100 that indicates remaining battery charge
@@ -104,6 +135,11 @@ int device_battery_is_charging(bool *charging);
  * @see #DEVICE_CALLBACK_BATTERY_LEVEL
  */
 int device_battery_get_level_status(device_battery_level_e *status);
+
+int device_battery_get_health(device_battery_health_e *health);
+int device_battery_get_power_source(device_battery_power_source_e *source);
+int device_battery_get_property(device_battery_property_e property, int *val);
+int device_battery_get_status(device_battery_status_e *status);
 
 /**
  * @}

@@ -169,6 +169,74 @@ int dbus_method_sync(const char *dest, const char *path,
 	return result;
 }
 
+int dbus_method_sync_with_reply(const char *dest,
+		const char *path, const char *interface,
+		const char *method, const char *sig,
+		char *param[], GVariant **info)
+{
+	GDBusConnection *conn;
+	GDBusProxy *proxy;
+	GError *err = NULL;
+	GVariant *output;
+	int result;
+
+#if !GLIB_CHECK_VERSION(2, 35, 0)
+	g_type_init();
+#endif
+
+	conn = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &err);
+	if (!conn) {
+		_E("g_bus_get_sync error : %s-%s (%d-%s)",
+				interface, method, err->code, err->message);
+		result = g_dbus_error_to_errno(err->code);
+		g_clear_error(&err);
+		return result;
+	}
+
+	proxy = g_dbus_proxy_new_sync(conn,
+			G_DBUS_PROXY_FLAGS_NONE,
+			NULL,      /* GDBusinterfaceinfo */
+			dest,      /* bus name */
+			path,      /* object path */
+			interface, /* interface name */
+			NULL,      /* GCancellable */
+			&err);
+	if (!proxy) {
+		_E("g_dbus_proxy_new_sync error : %s-%s (%d-%s)",
+				interface, method, err->code, err->message);
+		result = g_dbus_error_to_errno(err->code);
+		g_clear_error(&err);
+		return result;
+	}
+
+	output = g_dbus_proxy_call_sync(proxy,
+			method,                       /* method name */
+			append_g_variant(sig, param), /* parameters */
+			G_DBUS_CALL_FLAGS_NONE,
+			DBUS_REPLY_TIMEOUT,           /* timeout */
+			NULL,                         /* GCancellable */
+			&err);
+	if (!output) {
+		if (!err) {
+			_E("g_dbus_proxy_call_sync error : %s-%s",
+					interface, method);
+			g_object_unref(proxy);
+			return -EPERM;
+		}
+		_E("g_dbus_proxy_call_sync error : %s-%s (%d-%s)",
+				interface, method, err->code, err->message);
+		result = g_dbus_error_to_errno(err->code);
+		g_clear_error(&err);
+		g_object_unref(proxy);
+		return result;
+	}
+
+	g_object_unref(proxy);
+
+	*info = output;
+	return DEVICE_ERROR_NONE;
+}
+
 static void cb_pending(GDBusProxy *proxy,
 		GAsyncResult *res,
 		gpointer user_data)
