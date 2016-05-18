@@ -49,8 +49,8 @@ int device_haptic_get_count(int *device_number)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 
 	/* request to deviced to get haptic count */
-	ret = dbus_method_sync(DEVICED_BUS_NAME,
-			DEVICED_PATH_HAPTIC, DEVICED_INTERFACE_HAPTIC,
+	ret = dbus_method_sync(VIBRATOR_BUS_NAME,
+			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_GET_COUNT, NULL, NULL);
 	/**
 	 * there is no haptic method in no vibration model.
@@ -85,8 +85,8 @@ int device_haptic_open(int device_index, haptic_device_h *device_handle)
 	arr[0] = str_index;
 
 	/* request to deviced to open haptic device */
-	ret = dbus_method_sync(DEVICED_BUS_NAME,
-			DEVICED_PATH_HAPTIC, DEVICED_INTERFACE_HAPTIC,
+	ret = dbus_method_sync(VIBRATOR_BUS_NAME,
+			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_OPEN_DEVICE, "i", arr);
 	if (ret < 0)
 		return errno_to_device_error(ret);
@@ -108,8 +108,8 @@ int device_haptic_close(haptic_device_h device_handle)
 	arr[0] = str_handle;
 
 	/* request to deviced to open haptic device */
-	ret = dbus_method_sync(DEVICED_BUS_NAME,
-			DEVICED_PATH_HAPTIC, DEVICED_INTERFACE_HAPTIC,
+	ret = dbus_method_sync(VIBRATOR_BUS_NAME,
+			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_CLOSE_DEVICE, "u", arr);
 	if (ret < 0)
 		return errno_to_device_error(ret);
@@ -147,8 +147,8 @@ int device_haptic_vibrate(haptic_device_h device_handle, int duration, int feedb
 	arr[3] = str_priority;
 
 	/* request to deviced to vibrate haptic device */
-	ret = dbus_method_sync(DEVICED_BUS_NAME,
-			DEVICED_PATH_HAPTIC, DEVICED_INTERFACE_HAPTIC,
+	ret = dbus_method_sync(VIBRATOR_BUS_NAME,
+			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_VIBRATE_MONOTONE, "uiii", arr);
 	if (ret < 0)
 		return errno_to_device_error(ret);
@@ -173,8 +173,8 @@ int device_haptic_stop(haptic_device_h device_handle, haptic_effect_h effect_han
 	arr[0] = str_handle;
 
 	/* request to deviced to open haptic device */
-	ret = dbus_method_sync(DEVICED_BUS_NAME,
-			DEVICED_PATH_HAPTIC, DEVICED_INTERFACE_HAPTIC,
+	ret = dbus_method_sync(VIBRATOR_BUS_NAME,
+			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_STOP_DEVICE, "u", arr);
 	if (ret < 0)
 		return errno_to_device_error(ret);
