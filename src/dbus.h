@@ -35,8 +35,12 @@
 #define DEVICED_INTERFACE_BATTERY           DEVICED_INTERFACE_NAME".Battery"
 
 /* Haptic service: operatioins about haptic */
-#define DEVICED_PATH_HAPTIC                 DEVICED_OBJECT_PATH"/Haptic"
-#define DEVICED_INTERFACE_HAPTIC            DEVICED_INTERFACE_NAME".haptic"
+#define VIBRATOR_BUS_NAME                   "org.tizen.system.vibrator"
+#define VIBRATOR_OBJECT_PATH                "/Org/Tizen/System/Vibrator"
+#define VIBRATOR_INTERFACE_NAME	            VIBRATOR_BUS_NAME
+
+#define VIBRATOR_PATH_HAPTIC                VIBRATOR_OBJECT_PATH"/Haptic"
+#define VIBRATOR_INTERFACE_HAPTIC           VIBRATOR_INTERFACE_NAME".haptic"
 
 /* Led service: play/stop led operations about led */
 #define DEVICED_PATH_LED                    DEVICED_OBJECT_PATH"/Led"
