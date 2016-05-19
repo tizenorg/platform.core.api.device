@@ -22,6 +22,7 @@
 
 #include "device.h"
 #include "common.h"
+#include "display.h"
 
 #define CHECK_ERR(val)	\
 	do {	\
