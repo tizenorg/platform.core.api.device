@@ -186,6 +186,7 @@ static void cb_pending(GDBusProxy *proxy,
 
 	if (data && data->func)
 		data->func(data->data, output, err);
+	free(data);
 
 	if (err)
 		g_clear_error(&err);
