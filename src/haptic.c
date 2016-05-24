@@ -59,7 +59,7 @@ int device_haptic_get_count(int *device_number)
 	if (ret == -ENOTSUP)
 		ret = 0;
 	else if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	*device_number = ret;
 	return DEVICE_ERROR_NONE;
@@ -89,7 +89,7 @@ int device_haptic_open(int device_index, haptic_device_h *device_handle)
 			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_OPEN_DEVICE, "i", arr);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	*device_handle = (haptic_device_h)ret;
 	return DEVICE_ERROR_NONE;
@@ -112,7 +112,7 @@ int device_haptic_close(haptic_device_h device_handle)
 			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_CLOSE_DEVICE, "u", arr);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	return DEVICE_ERROR_NONE;
 }
@@ -151,7 +151,7 @@ int device_haptic_vibrate(haptic_device_h device_handle, int duration, int feedb
 			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_VIBRATE_MONOTONE, "uiii", arr);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	if (effect_handle)
 		*effect_handle = (haptic_effect_h)ret;
@@ -177,7 +177,7 @@ int device_haptic_stop(haptic_device_h device_handle, haptic_effect_h effect_han
 			VIBRATOR_PATH_HAPTIC, VIBRATOR_INTERFACE_HAPTIC,
 			METHOD_STOP_DEVICE, "u", arr);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	return DEVICE_ERROR_NONE;
 }

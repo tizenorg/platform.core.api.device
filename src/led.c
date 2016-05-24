@@ -64,7 +64,7 @@ int device_flash_get_max_brightness(int *max_brightness)
 			DEVICED_PATH_LED, DEVICED_INTERFACE_LED,
 			METHOD_GET_MAX_BRIGHTNESS, NULL, NULL);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	*max_brightness = ret;
 	return DEVICE_ERROR_NONE;
@@ -84,7 +84,7 @@ int device_flash_get_brightness(int *brightness)
 			DEVICED_PATH_LED, DEVICED_INTERFACE_LED,
 			METHOD_GET_BRIGHTNESS, NULL, NULL);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	*brightness = ret;
 	return DEVICE_ERROR_NONE;
@@ -117,7 +117,7 @@ int device_flash_set_brightness(int brightness)
 			DEVICED_PATH_LED, DEVICED_INTERFACE_LED,
 			METHOD_SET_BRIGHTNESS, "ii", arr);
 	if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	return DEVICE_ERROR_NONE;
 }
@@ -163,8 +163,10 @@ int device_led_stop_custom(void)
 	ret = dbus_method_sync(DEVICED_BUS_NAME,
 			DEVICED_PATH_LED, DEVICED_INTERFACE_LED,
 			METHOD_STOP_CUSTOM, NULL, NULL);
+//LCOV_EXCL_START System Error
 	if (ret < 0)
 		return errno_to_device_error(ret);
+//LCOV_EXCL_STOP
 
 	return DEVICE_ERROR_NONE;
 }

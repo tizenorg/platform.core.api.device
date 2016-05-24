@@ -80,7 +80,7 @@ static void lock_cb(void *data, GVariant *result, GError *err)
 	int ret;
 
 	if (!result) {
-		_E("no message : %s", err->message);
+		_E("no message : %s", err->message); //LCOV_EXCL_LINE
 		return;
 	}
 
@@ -131,7 +131,7 @@ static void unlock_cb(void *data, GVariant *result, GError *err)
 	int ret;
 
 	if (!result) {
-		_E("no message : %s", err->message);
+		_E("no message : %s", err->message); //LCOV_EXCL_LINE
 		return;
 	}
 
@@ -213,6 +213,7 @@ int device_power_wakeup(bool dim)
 	return device_display_change_state(DISPLAY_STATE_NORMAL);
 }
 
+//LCOV_EXCL_START Not available to test(Reboot during TCT)
 int device_power_reboot(const char *reason)
 {
 	char *arr[1];
@@ -228,3 +229,4 @@ int device_power_reboot(const char *reason)
 			METHOD_REBOOT, "s", arr);
 	return errno_to_device_error(ret);
 }
+//LCOV_EXCL_STOP

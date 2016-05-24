@@ -48,10 +48,12 @@ int device_ir_is_available(bool *available)
 			DEVICED_INTERFACE_IR, METHOD_IS_AVAILABLE,
 			NULL, NULL);
 
+//LCOV_EXCL_START System Error
 	if (!ret) {
 		*available = false;
 		return DEVICE_ERROR_OPERATION_FAILED;
 	}
+//LCOV_EXCL_STOP
 
 	*available = ir_avail;
 	return DEVICE_ERROR_NONE;
@@ -72,14 +74,14 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 			_E("IR is not supported or IR operation failed");
 			return ret;
 		}
-		_E("IR is not supported");
+		_E("IR is not supported"); //LCOV_EXCL_LINE
 		return DEVICE_ERROR_OPERATION_FAILED;
 	}
 
 	if (!pattern)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	if (size <= 0) {
-		_E("IR pattern size is invalid");
+		_E("IR pattern size is invalid"); //LCOV_EXCL_LINE
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	}
 
@@ -95,8 +97,10 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 			DEVICED_INTERFACE_IR, METHOD_TRANSMIT,
 			"ai", arr);
 
+//LCOV_EXCL_START System Error
 	if (ret < 0)
 		return DEVICE_ERROR_OPERATION_FAILED;
+//LCOV_EXCL_STOP
 
 	return DEVICE_ERROR_NONE;
 }
