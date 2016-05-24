@@ -80,7 +80,7 @@ static void lock_cb(void *data, GVariant *result, GError *err)
 	int ret;
 
 	if (!result) {
-		_E("no message : %s", err->message);
+		_E("no message : %s", err->message); //LCOV_EXCL_LINE
 		return;
 	}
 
@@ -131,7 +131,7 @@ static void unlock_cb(void *data, GVariant *result, GError *err)
 	int ret;
 
 	if (!result) {
-		_E("no message : %s", err->message);
+		_E("no message : %s", err->message); //LCOV_EXCL_LINE
 		return;
 	}
 

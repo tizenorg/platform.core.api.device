@@ -87,7 +87,7 @@ int device_display_get_max_brightness(int display_index, int *max_brightness)
 
 	if (display_cnt < 0) {
 		ret = device_display_get_numbers(&display_cnt);
-		if (ret != DEVICE_ERROR_NONE)
+		if (ret != DEVICE_ERROR_NONE) //LCOV_EXCL_LINE System Error
 			return ret;
 	}
 
@@ -119,7 +119,7 @@ int device_display_get_brightness(int display_index, int *brightness)
 
 	if (display_cnt < 0) {
 		ret = device_display_get_numbers(&display_cnt);
-		if (ret != DEVICE_ERROR_NONE)
+		if (ret != DEVICE_ERROR_NONE) //LCOV_EXCL_LINE System Error
 			return ret;
 	}
 
@@ -144,7 +144,7 @@ int device_display_set_brightness(int display_index, int brightness)
 
 	if (display_cnt < 0) {
 		ret = device_display_get_numbers(&display_cnt);
-		if (ret != DEVICE_ERROR_NONE)
+		if (ret != DEVICE_ERROR_NONE) //LCOV_EXCL_LINE System Error
 			return ret;
 	}
 

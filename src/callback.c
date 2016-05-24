@@ -39,6 +39,7 @@ struct device_cb_info {
 static dd_list *device_cb_list[DEVICE_CALLBACK_MAX];
 static int flash_sigid;
 
+//LCOV_EXCL_START Not called Callback
 static void battery_capacity_cb(keynode_t *key, void *data)
 {
 	static device_callback_e type = DEVICE_CALLBACK_BATTERY_CAPACITY;
@@ -52,7 +53,9 @@ static void battery_capacity_cb(keynode_t *key, void *data)
 	DD_LIST_FOREACH(device_cb_list[type], elem, cb_info)
 		cb_info->cb(type, (void*)val, cb_info->data);
 }
+//LCOV_EXCL_STOP
 
+//LCOV_EXCL_START Not called Callback
 static void battery_charging_cb(keynode_t *key, void *data)
 {
 	static device_callback_e type = DEVICE_CALLBACK_BATTERY_CHARGING;
@@ -66,7 +69,9 @@ static void battery_charging_cb(keynode_t *key, void *data)
 	DD_LIST_FOREACH(device_cb_list[type], elem, cb_info)
 		cb_info->cb(type, (void*)val, cb_info->data);
 }
+//LCOV_EXCL_STOP
 
+//LCOV_EXCL_START Not called Callback
 static void battery_level_cb(keynode_t *key, void *data)
 {
 	static device_callback_e type = DEVICE_CALLBACK_BATTERY_LEVEL;
@@ -93,7 +98,9 @@ static void battery_level_cb(keynode_t *key, void *data)
 	DD_LIST_FOREACH(device_cb_list[type], elem, cb_info)
 		cb_info->cb(type, (void*)status, cb_info->data);
 }
+//LCOV_EXCL_STOP
 
+//LCOV_EXCL_START Not called Callback
 static void display_changed_cb(keynode_t *key, void *data)
 {
 	static device_callback_e type = DEVICE_CALLBACK_DISPLAY_STATE;
@@ -119,7 +126,9 @@ static void display_changed_cb(keynode_t *key, void *data)
 	DD_LIST_FOREACH(device_cb_list[type], elem, cb_info)
 		cb_info->cb(type, (void*)state, cb_info->data);
 }
+//LCOV_EXCL_STOP
 
+//LCOV_EXCL_START Not called Callback
 static void flash_state_cb(GDBusConnection *conn,
 		const gchar *sender,
 		const gchar *object,
@@ -147,6 +156,7 @@ static void flash_state_cb(GDBusConnection *conn,
 	DD_LIST_FOREACH(device_cb_list[type], elem, cb_info)
 		cb_info->cb(type, (void*)val, cb_info->data);
 }
+//LCOV_EXCL_STOP
 
 static int register_signal(const char *bus_name,
 		const char *object_path,
@@ -165,8 +175,8 @@ static int register_signal(const char *bus_name,
 
 	conn = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &err);
 	if (!conn) {
-		_E("fail to get dbus connection : %s", err->message);
-		g_clear_error(&err);
+		_E("fail to get dbus connection : %s", err->message); //LCOV_EXCL_LINE
+		g_clear_error(&err); //LCOV_EXCL_LINE System Error
 		return -EPERM;
 	}
 
@@ -182,7 +192,7 @@ static int register_signal(const char *bus_name,
 			NULL,
 			NULL);
 	if (id == 0) {
-		_E("fail to connect %s signal", signal);
+		_E("fail to connect %s signal", signal); //LCOV_EXCL_LINE
 		return -EPERM;
 	}
 
@@ -202,8 +212,8 @@ static int unregister_signal(int *sig_id)
 
 	conn = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &err);
 	if (!conn) {
-		_E("fail to get dbus connection : %s", err->message);
-		g_clear_error(&err);
+		_E("fail to get dbus connection : %s", err->message); //LCOV_EXCL_LINE
+		g_clear_error(&err); //LCOV_EXCL_LINE System Error
 		return -EPERM;
 	}
 

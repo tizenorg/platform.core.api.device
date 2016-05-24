@@ -44,6 +44,7 @@ int device_ir_is_available(bool *available)
 		return DEVICE_ERROR_NOT_SUPPORTED;
 	}
 
+//LCOV_EXCL_START Not supported feature
 	ret = dbus_method_sync(DEVICED_BUS_NAME, DEVICED_PATH_IR,
 			DEVICED_INTERFACE_IR, METHOD_IS_AVAILABLE,
 			NULL, NULL);
@@ -56,6 +57,7 @@ int device_ir_is_available(bool *available)
 	*available = ir_avail;
 	return DEVICE_ERROR_NONE;
 }
+//LCOV_EXCL_STOP
 
 int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 {
@@ -72,10 +74,11 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 			_E("IR is not supported or IR operation failed");
 			return ret;
 		}
-		_E("IR is not supported");
+		_E("IR is not supported"); //LCOV_EXCL_LINE
 		return DEVICE_ERROR_OPERATION_FAILED;
 	}
 
+//LCOV_EXCL_START Not supported feature
 	if (!pattern)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	if (size <= 0) {
@@ -100,3 +103,4 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 
 	return DEVICE_ERROR_NONE;
 }
+//LCOV_EXCL_STOP

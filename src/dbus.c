@@ -115,11 +115,13 @@ int dbus_method_sync(const char *dest, const char *path,
 
 	conn = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &err);
 	if (!conn) {
+//LCOV_EXCL_START System Error
 		_E("g_bus_get_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);
 		g_clear_error(&err);
 		return result;
+//LCOV_EXCL_STOP
 	}
 
 	proxy = g_dbus_proxy_new_sync(conn,
@@ -131,11 +133,13 @@ int dbus_method_sync(const char *dest, const char *path,
 			NULL,      /* GCancellable */
 			&err);
 	if (!proxy) {
+//LCOV_EXCL_START System Error
 		_E("g_dbus_proxy_new_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);
 		g_clear_error(&err);
 		return result;
+//LCOV_EXCL_STOP
 	}
 
 	output = g_dbus_proxy_call_sync(proxy,
@@ -146,6 +150,7 @@ int dbus_method_sync(const char *dest, const char *path,
 			NULL,                         /* GCancellable */
 			&err);
 	if (!output) {
+//LCOV_EXCL_START System Error
 		if (!err) {
 			_E("g_dbus_proxy_call_sync error : %s-%s",
 					interface, method);
@@ -158,6 +163,7 @@ int dbus_method_sync(const char *dest, const char *path,
 		g_clear_error(&err);
 		g_object_unref(proxy);
 		return result;
+//LCOV_EXCL_STOP
 	}
 
 	/* get output value */
@@ -181,7 +187,7 @@ static void cb_pending(GDBusProxy *proxy,
 			res, /* GAsyncResult */
 			&err);
 	if (!output)
-		_E("g_dbus_proxy_call_finish error : %d-%s",
+		_E("g_dbus_proxy_call_finish error : %d-%s", //LCOV_EXCL_LINE
 				err->code, err->message);
 
 	if (data && data->func)
@@ -212,11 +218,13 @@ int dbus_method_async_with_reply(const char *dest, const char *path,
 
 	conn = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, &err);
 	if (!conn) {
+//LCOV_EXCL_START System Error
 		_E("g_bus_get_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);
 		g_clear_error(&err);
 		return result;
+//LCOV_EXCL_STOP
 	}
 
 	proxy = g_dbus_proxy_new_sync(conn,
@@ -228,11 +236,13 @@ int dbus_method_async_with_reply(const char *dest, const char *path,
 			NULL,      /* GCancellable */
 			&err);
 	if (!proxy) {
+//LCOV_EXCL_START System Error
 		_E("g_dbus_proxy_new_sync error : %s-%s (%d-%s)",
 				interface, method, err->code, err->message);
 		result = g_dbus_error_to_errno(err->code);
 		g_clear_error(&err);
 		return result;
+//LCOV_EXCL_STOP
 	}
 
 	pdata = malloc(sizeof(struct pending_call_data));

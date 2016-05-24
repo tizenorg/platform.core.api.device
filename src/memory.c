@@ -48,6 +48,7 @@ static const char *_mi_str[] = {
 	[_MI_SHMEM] = "Shmem",
 };
 
+//LCOV_EXCL_START Not used function
 static inline int _get_idx(const char *name)
 {
 	int i;
@@ -134,3 +135,4 @@ int device_memory_get_available(unsigned int *avail_mem)
 	*avail_mem = mi.l[_MI_FREE] + mi.l[_MI_BUF] + mi.l[_MI_CACHED] + mi.l[_MI_SWAP] - mi.l[_MI_SHMEM];
 	return DEVICE_ERROR_NONE;
 }
+//EXCL_LCOV_STOP

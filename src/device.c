@@ -33,6 +33,7 @@
 		}	\
 	} while (0)
 
+//LCOV_EXCL_START
 int device_get_display_numbers(int* device_number)
 {
 	return device_display_get_numbers(device_number);
@@ -223,3 +224,4 @@ int device_battery_warning_unset_cb(void)
 
 	return DEVICE_ERROR_NONE;
 }
+//LCOV_EXCL_STOP
