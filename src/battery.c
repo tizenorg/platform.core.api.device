@@ -55,7 +55,7 @@ int device_battery_get_percent(int *percent)
 	if (ret == -ENOTSUP)
 		ret = 0;
 	else if (ret < 0)
-		return errno_to_device_error(ret);
+		return errno_to_device_error(ret); //LCOV_EXCL_LINE System Error
 
 	*percent = ret;
 	return DEVICE_ERROR_NONE;

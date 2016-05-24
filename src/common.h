@@ -42,7 +42,7 @@ static inline int errno_to_device_error(int err)
 		return DEVICE_ERROR_NONE;
 	case -EACCES:
 	case -EPERM:
-		return DEVICE_ERROR_PERMISSION_DENIED;
+		return DEVICE_ERROR_PERMISSION_DENIED; //LCOV_EXCL_LINE System Error
 	case -EBUSY:
 		return DEVICE_ERROR_RESOURCE_BUSY;
 	case -ENOTSUP:

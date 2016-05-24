@@ -72,14 +72,14 @@ int device_ir_transmit(int carrier_frequency, int *pattern, int size)
 			_E("IR is not supported or IR operation failed");
 			return ret;
 		}
-		_E("IR is not supported");
+		_E("IR is not supported"); //LCOV_EXCL_LINE
 		return DEVICE_ERROR_OPERATION_FAILED;
 	}
 
 	if (!pattern)
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	if (size <= 0) {
-		_E("IR pattern size is invalid");
+		_E("IR pattern size is invalid"); //LCOV_EXCL_LINE
 		return DEVICE_ERROR_INVALID_PARAMETER;
 	}
 

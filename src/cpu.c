@@ -29,7 +29,7 @@
 #define PROC_SCALING_CUR_FREQ			"/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq"
 #define PROC_SCALING_MAX_FREQ			"/sys/devices/system/cpu/cpu%d/cpufreq/scaling_max_freq"
 
-
+//LCOV_EXCL_START Not used function
 int device_cpu_get_count(int *cpu_cnt)
 {
 	FILE *fp;
@@ -169,3 +169,4 @@ int device_cpu_get_max_freq(int cpu, unsigned int *max_freq)
 	*max_freq = max;
 	return DEVICE_ERROR_NONE;
 }
+//LCOV_EXCL_STOP Not used function
