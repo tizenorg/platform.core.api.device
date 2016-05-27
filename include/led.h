@@ -81,7 +81,7 @@ int device_flash_get_brightness(int *brightness);
  * @privlevel public
  * @privilege %http://tizen.org/privilege/led
  *
- * @remarks Since 2.4, this API check camera flash status whether camera API preempted flash or not, so it could be failed if flash was preempted by camera API. In this case, API will return #DEVICE_ERROR_RESOURCE_BUSY error.
+ * @remarks Since @if Mobile 2.4 @elseif WEARABLE 3.0 @endif, this API check camera flash status whether camera API preempted flash or not, so it could be failed if flash was preempted by camera API. In this case, API will return #DEVICE_ERROR_RESOURCE_BUSY error.
  * This API is related to the following feature: %http://tizen.org/feature/camera.back.flash
  *
  * @param[in] brightness The brightness value of LED (@c 0 ~ MAX)

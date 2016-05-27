@@ -42,7 +42,7 @@ extern "C" {
  * <TR><TD>POWER_LOCK_DISPLAY</TD><TD>ON</TD><TD>ON(Normal)</TD></TR>
  * <TR><TD>POWER_LOCK_DISPLAY_DIM</TD><TD>ON</TD><TD>ON(Dim)</TD></TR>
  * </TABLE>
- *          The POWER_LOCK_DISPLAY and POWER_LOCK_DISPLAY_DIM types were deprecated in Tizen 2.4.\n
+ *          The POWER_LOCK_DISPLAY and POWER_LOCK_DISPLAY_DIM types were deprecated in Tizen @if Mobile 2.4 @elseif WEARABLE 3.0 @endif.\n
  *          Please use below api set instead of these types.\n
  *          int efl_util_set_window_screen_mode(Evas_Object *window, efl_util_screen_mode_e mode);\n
  *          int efl_util_get_window_screen_mode(Evas_Object *window, efl_util_screen_mode_e *mode);
@@ -56,8 +56,8 @@ extern "C" {
  */
 typedef enum {
     POWER_LOCK_CPU,         /**< CPU lock */
-    POWER_LOCK_DISPLAY,     /**< Display normal lock (Deprecated since 2.4. Use efl_util_set_window_screen_mode() instead) */
-    POWER_LOCK_DISPLAY_DIM, /**< Display dim lock (Deprecated since 2.4. Use efl_util_set_window_screen_mode() instead) */
+    POWER_LOCK_DISPLAY,     /**< Display normal lock (Deprecated since @if Mobile 2.4 @elseif WEARABLE 3.0 @endif. Use efl_util_set_window_screen_mode() instead) */
+    POWER_LOCK_DISPLAY_DIM, /**< Display dim lock (Deprecated since @if Mobile 2.4 @elseif WEARABLE 3.0 @endif. Use efl_util_set_window_screen_mode() instead) */
 } power_lock_e;
 
 /**

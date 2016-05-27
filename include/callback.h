@@ -40,7 +40,7 @@ typedef enum {
     DEVICE_CALLBACK_BATTERY_LEVEL,       /**< Called when a battery level is changed */
     DEVICE_CALLBACK_BATTERY_CHARGING,    /**< Called when battery charging state is changed */
     DEVICE_CALLBACK_DISPLAY_STATE,       /**< Called when a display state is changed */
-    DEVICE_CALLBACK_FLASH_BRIGHTNESS,    /**< Called when a flash brightness is changed (Since Tizen 2.4) */
+    DEVICE_CALLBACK_FLASH_BRIGHTNESS,    /**< Called when a flash brightness is changed (Since Tizen @if Mobile 2.4 @elseif WEARABLE 3.0 @endif) */
     DEVICE_CALLBACK_MAX
 } device_callback_e;
 
