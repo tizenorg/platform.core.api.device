@@ -170,6 +170,9 @@ int device_battery_get_health(device_battery_health_e *health)
 	int ret;
 	size_t len;
 
+	if (!health)
+		return DEVICE_ERROR_INVALID_PARAMETER;
+
 	ret = device_battery_get_info(&info);
 	if (ret != DEVICE_ERROR_NONE) {
 		_E("Failed to get battery info (%d)", ret);
@@ -198,6 +201,9 @@ int device_battery_get_power_source(device_battery_power_source_e *source)
 	struct battery_info info;
 	int ret;
 	size_t len;
+
+	if (!source)
+		return DEVICE_ERROR_INVALID_PARAMETER;
 
 	ret = device_battery_get_info(&info);
 	if (ret != DEVICE_ERROR_NONE) {
@@ -254,6 +260,9 @@ int device_battery_get_status(device_battery_status_e *status)
 	struct battery_info info;
 	int ret;
 	size_t len;
+
+	if (!status)
+		return DEVICE_ERROR_INVALID_PARAMETER;
 
 	ret = device_battery_get_info(&info);
 	if (ret != DEVICE_ERROR_NONE) {
