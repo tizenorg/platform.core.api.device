@@ -198,9 +198,9 @@ int device_display_get_state(display_state_e *state);
  *  ...
  *  result = device_display_change_state(DISPLAY_STATE_SCREEN_OFF);
  *  if( result < 0 )
- *      printf("[ERROR] return value result =%d, \n",result);
+ *      dlog_print(DLOG_ERROR, LOG_TAG, "[ERROR] return value result =%d, \n",result);
  *  else
- *      printf("[SUCCESS] return value result =%d \n",result);
+ *      dlog_print(DLOG_DEBUG, LOG_TAG, "[SUCCESS] return value result =%d \n",result);
  *  ...
  * @endcode
  */
