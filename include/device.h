@@ -538,59 +538,6 @@ int device_memory_get_total(unsigned int *total_mem);
 int device_memory_get_available(unsigned int *avail_mem);
 
 /**
- * @brief Get time information the CPU has spent performing work.
- *
- * @remarks
- * Time units are in USER_HZ (typically hundredths of a second).
- *
- * @param[out] time structure of time information the CPU has spent
- *
- * @return 0 on success, otherwise a negative error value.
- * @retval #DEVICE_ERROR_NONE				Successful
- * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
- * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
- */
-int device_cpu_get_system_time(device_system_time_s *time);
-
-/**
- * @brief Get all of CPU count
- *
- * @param[out] cpu_cnt total count of CPU
- *
- * @return 0 on success, otherwise a negative error value.
- * @retval #DEVICE_ERROR_NONE				Successful
- * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
- * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
- */
-int device_cpu_get_count(int *cpu_cnt);
-
-/**
- * @brief Get currently frequency of CPU
- *
- * @param[in]  cpu the index of CPU which want to know
- * @param[out] cur_freq currently frequency value of CPU
- *
- * @return 0 on success, otherwise a negative error value.
- * @retval #DEVICE_ERROR_NONE				Successful
- * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
- * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
- */
-int device_cpu_get_current_freq(int cpu, unsigned int *cur_freq);
-
-/**
- * @brief Get max frequency of CPU
- *
- * @param[in]  cpu the index of CPU which want to know
- * @param[out] max_freq max frequency value of CPU
- *
- * @return 0 on success, otherwise a negative error value.
- * @retval #DEVICE_ERROR_NONE				Successful
- * @retval #DEVICE_ERROR_INVALID_PARAMETER	Invalid parameter
- * @retval #DEVICE_ERROR_OPERATION_FAILED	Operation failed
- */
-int device_cpu_get_max_freq(int cpu, unsigned int *max_freq);
-
-/**
  * @}
  */
 
